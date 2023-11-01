@@ -1,0 +1,47 @@
+.adminForms {
+  width: 100%;
+  height: fit-content;
+  box-sizing: border-box;
+  padding: 10px 20px;
+  position: relative;
+}
+.AllInputs {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.AllInputs .vsmall {
+  flex-grow: 1;
+  box-sizing: border-box;
+  padding: 0 10px;
+  max-width: 400px;
+}
+.AllInputs .vsmall input {
+  height: 36px;
+}
+.AllInputs .vvsmall {
+  flex-grow: 1;
+  max-width: 250px;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+.AllInputs .vvsmall input {
+  height: 28px;
+  width: 150px;
+  box-sizing: border-box;
+}
+.AllInputs .vvsmall.vvheight input {
+  height: 36px;
+}
+.AllInputs .medium {
+  flex-grow: 1;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+.AllInputs .medium input {
+  width: 100%;
+  height: 36px !important;
+}

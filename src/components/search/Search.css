@@ -1,0 +1,32 @@
+.search {
+  margin-top: 50px;
+  width: 100%;
+}
+#search {
+  font-family: poppins;
+  width: 90%;
+  padding: 10px 15px;
+  font-size: medium;
+  border: 0.5mm solid rgba(0, 0, 0, 0.098);
+  border-radius: 7mm;
+  outline: none;
+}
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  height: 1em;
+  width: 1em;
+  border-radius: 50em;
+  background: url(https://pro.fontawesome.com/releases/v5.10.0/svgs/solid/times-circle.svg)
+    no-repeat 50% 50%;
+  background-size: contain;
+  opacity: 0;
+  pointer-events: none;
+}
+
+input[type="search"]:focus::-webkit-search-cancel-button {
+  opacity: 0.3;
+  pointer-events: all;
+}
+#search:focus {
+  border: 0.5mm solid rgb(197, 197, 197);
+}

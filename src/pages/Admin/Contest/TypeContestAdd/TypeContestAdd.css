@@ -1,0 +1,11 @@
+.TYPECONTEST {
+  width: 100%;
+  height: fit-content;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.TYPECONTEST .ant-space-item:nth-child(1) {
+  flex-grow: 1;
+}

@@ -1,0 +1,92 @@
+.QUESTION {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+  background: rgb(27, 30, 33);
+}
+.QUESTION .questionMain {
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: poppins;
+  color: white;
+}
+.QUESTION h2 {
+  width: 100%;
+  font-weight: 500;
+  margin: 10px 0;
+  margin-top: 0;
+  padding: 3px 40px;
+  box-sizing: border-box;
+  background: rgb(48, 50, 53);
+  border: 0.2mm solid rgb(64, 66, 71);
+}
+.QUESTION h3 {
+  font-weight: 500;
+  padding: 0 40px;
+  margin-bottom: 10px;
+  margin-top: 25px;
+  box-sizing: border-box;
+}
+.QUESTION .title-details {
+  display: flex;
+  align-items: center;
+  border-bottom: 0.3mm solid rgb(61, 64, 67);
+  padding: 10px 40px;
+  box-sizing: border-box;
+  padding-top: 0;
+  margin-bottom: 15px;
+}
+.QUESTION .difficulty,
+.QUESTION p {
+  font-size: 14px;
+}
+.QUESTION p {
+  padding: 0 40px;
+  box-sizing: border-box;
+  margin: 0;
+  white-space: pre-line;
+}
+.QUESTION .title-details .material-icons-round {
+  color: rgb(82, 206, 111);
+  font-size: 20px;
+  margin-left: 5px;
+}
+.QUESTION .example {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+  grid-auto-rows: minmax(100px, auto);
+}
+.QUESTION .example .inout {
+  padding: 10px;
+  box-sizing: border-box;
+  border: 0.2mm solid rgb(74, 77, 82);
+  background: rgb(48, 50, 53);
+}
+.QUESTION .example .inout:nth-child(even) {
+  border-left: none;
+}
+.QUESTION .example .inout .example-heading {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0px;
+  padding-top: 0px;
+  border-bottom: 0.2mm solid rgb(74, 77, 82);
+  margin-bottom: 10px;
+}
+.QUESTION .example .inout .example-heading span {
+  font-size: 20px;
+  cursor: pointer;
+}
+.QUESTION .example .inout .inout-value {
+  word-wrap: break-word;
+  white-space: pre-line;
+}

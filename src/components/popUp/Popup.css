@@ -1,0 +1,77 @@
+.POPUP {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 9999;
+  background: rgba(235, 238, 244, 0.5);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.POPUP .modal {
+  width: 400px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: white;
+  box-shadow: rgba(21, 39, 76, 0.5) 0px 30px 60px -12px,
+    rgba(24, 66, 151, 0.3) 0px 18px 36px -18px;
+  border-radius: 3mm;
+  position: relative;
+  animation: scaleit 0.25s ease-in-out;
+}
+@keyframes scaleit {
+  from {
+    transform: scale(1.05) translateY(10px);
+  }
+  to {
+    transform: scale(1) translateY(0px);
+  }
+}
+.POPUP .modal .top {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  flex-grow: 1;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.POPUP .modal .top span {
+  font-size: 50px;
+  padding: 0 10px;
+}
+.POPUP .modal .top p {
+  font-family: poppins;
+  font-size: 18px;
+  font-weight: 500;
+}
+.POPUP .modal .bottom {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  padding: 10px;
+}
+.POPUP .btn-pop {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-family: poppins;
+  font-size: 15px;
+  background: rgb(20, 156, 255);
+  padding: 8px 20px;
+  color: white;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 2mm;
+  font-weight: 500;
+}

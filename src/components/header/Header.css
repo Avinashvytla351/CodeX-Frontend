@@ -1,0 +1,238 @@
+html {
+  scroll-behavior: smooth;
+}
+body {
+  overflow-x: hidden;
+  margin: 0;
+  scroll-behavior: smooth;
+}
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(155, 155, 155);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(110, 110, 110);
+}
+.HEADER .chapter-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  background: white;
+}
+.HEADER button:focus {
+  outline: none;
+}
+.HEADER .nav-chapter-logo2 {
+  height: 70px;
+  margin-left: 1vw;
+}
+.HEADER .nav-chapter-logo2 img {
+  height: 60px;
+  margin-top: 3px;
+}
+.HEADER .chapter-nav-btn {
+  width: fit-content;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.HEADER .nav-btn {
+  background: none;
+  outline: none;
+  box-shadow: none;
+  border: none;
+  font-family: poppins;
+  cursor: pointer;
+  font-size: medium;
+  margin-top: 0px;
+  color: rgb(44, 44, 44);
+  padding: 7px 14px;
+  border-radius: 6mm;
+  border: 0.4mm solid transparent;
+  margin: 0 6px;
+}
+.HEADER .nav-btn:hover {
+  color: rgb(40, 40, 40);
+  background: rgba(0, 0, 0, 0.022);
+  border: 0.4mm solid rgb(48, 48, 48);
+  border-radius: 7mm;
+}
+.HEADER .nav-btn .nav-link {
+  color: rgb(35, 35, 35);
+}
+.HEADER .nav-link:hover {
+  color: dodgerblue;
+}
+.HEADER .nav-dots {
+  position: relative;
+  display: inline-block;
+  padding: 0;
+}
+.HEADER .nav-dots .threedots {
+  margin-right: 16px;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  background: rgb(255, 255, 255);
+}
+.HEADER .nav-dots .threedots:hover > span {
+  color: rgb(176, 255, 176);
+}
+.HEADER .nav-dots .threedots:hover {
+  background: rgb(82, 82, 82);
+}
+.HEADER .nav-dots .threedots span {
+  font-size: x-large;
+  text-align: center;
+  color: rgb(49, 49, 49);
+}
+.HEADER .dots-nav {
+  position: absolute;
+  background: white;
+  z-index: 99999;
+  right: 16px;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  width: fit-content;
+  padding: 12px 0;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3),
+    0 2px 6px 2px rgba(60, 64, 67, 0.15);
+  border-radius: 3mm;
+}
+.HEADER .dots-nav .nav-btn {
+  text-align: center;
+  width: 100%;
+  height: fit-content;
+  font-family: poppins;
+  font-size: medium;
+  padding: 7px 0;
+  color: rgb(45, 45, 45);
+  margin: 3px 0;
+  border-bottom-right-radius: 6mm;
+  border-top-right-radius: 6mm;
+}
+.HEADER .dots-nav .nav-btn:hover {
+  background: rgba(145, 145, 145, 0.137);
+  border-color: transparent;
+  border-radius: 0;
+}
+.HEADER .mbutton {
+  display: none;
+  text-decoration: none;
+  background: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+.HEADER .mbutton span {
+  font-size: xx-large;
+}
+.HEADER .mbutton:hover {
+  color: red;
+}
+.HEADER .chapter-navigation2 {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  z-index: 99999;
+  background: white;
+  transform: translateX(101vw);
+  transition: 0.25s;
+}
+.HEADER .topbar {
+  height: 65px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.HEADER .nav2images img {
+  width: 60px;
+  margin-left: 10px;
+  margin-top: 5px;
+}
+.HEADER .chapter-nav-btn2 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  margin-top: 9vh;
+  height: 75vh;
+  margin-bottom: 9vh;
+}
+.HEADER .nav-btn2 {
+  text-decoration: none;
+  border: none;
+  outline: none;
+  background: none;
+  font-family: poppins;
+  font-size: 27px;
+  color: black;
+  margin-left: 5vw;
+  margin-bottom: 10px;
+}
+.HEADER .nav-btn2 a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.HEADER .nav-btn2 form a {
+  color: dodgerblue;
+}
+.HEADER .chnav2end {
+  width: 90vw;
+  margin-left: 5vw;
+  padding-top: 5%;
+  border-top: rgb(187, 187, 187) solid 1px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2%;
+}
+.HEADER .nav-btn3 {
+  text-decoration: none;
+  outline: none;
+  border: none;
+  background: none;
+}
+.HEADER .nav-btn3 a {
+  text-decoration: none;
+  font-family: poppins;
+  font-size: large;
+  color: rgb(80, 80, 80);
+}
+.HEADER .nav-btn3 a:hover {
+  color: dodgerblue;
+}
+.HEADER #menu-open:hover {
+  color: dodgerblue;
+}
+.HEADER #menu-open {
+  color: rgb(62, 62, 62);
+}

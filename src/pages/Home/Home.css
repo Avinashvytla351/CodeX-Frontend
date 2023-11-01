@@ -1,0 +1,298 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&family=Major+Mono+Display&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+.HOME {
+  width: 100%;
+  height: fit-content;
+  position: relative;
+  line-height: 1.5;
+}
+.HOME .main-space {
+  font-family: poppins;
+  width: 100%;
+  overflow: hidden;
+  height: 98vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-direction: column;
+  background-attachment: fixed;
+}
+.HOME .content {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+.HOME .content .small {
+  font-size: 2rem;
+  background: transparent;
+}
+.HOME .content .big {
+  font-size: 8rem;
+  line-height: 7rem;
+  font-family: "Major Mono Display";
+}
+.HOME .main-space {
+  background: white;
+  color: black;
+}
+.HOME .content .small {
+  color: rgb(76, 76, 76);
+}
+.HOME .content .big {
+  color: rgb(39, 39, 39);
+  overflow: hidden;
+  border-right: 0.05em solid orange;
+  width: 0;
+  animation: typing 1s steps(8, end) forwards, blink-caret 0.8s infinite;
+}
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: orange;
+  }
+}
+.HOME .rside span {
+  color: gold;
+}
+.HOME .lside span {
+  color: rgba(0, 0, 0, 0.135);
+}
+.HOME .lsideup span {
+  color: rgb(138, 180, 248);
+}
+.HOME .langs {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+.HOME .lang-img {
+  flex-basis: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 90px 0;
+}
+.HOME .lang-img img {
+  width: 70%;
+  border-radius: 2mm;
+}
+.HOME .lang-content {
+  flex-basis: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.HOME .lang-title {
+  display: flex;
+  font-size: 1.1rem;
+  font-family: poppins;
+  color: rgb(72, 72, 72);
+  align-items: center;
+  padding: 7px 12px;
+  border-radius: 6mm;
+  border: 0.5mm solid rgb(68, 68, 68);
+  background: rgb(196, 234, 207);
+  margin-bottom: 15px;
+}
+.HOME .lang-title span {
+  font-size: 1.5rem;
+  margin-right: 2px;
+}
+.HOME .lang-body {
+  width: 90%;
+  font-size: 2.1rem;
+  line-height: 3.5rem;
+  font-weight: 400;
+  font-family: Lexend;
+  color: rgb(64, 65, 68);
+  line-height: 2.5rem;
+}
+.HOME .lang-body-small {
+  width: 90%;
+  font-family: poppins;
+  color: rgb(100, 100, 100);
+  font-size: 1rem;
+  text-align: justify;
+  margin-top: 25px;
+}
+@keyframes rotate {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+@keyframes rotateUP {
+  0% {
+    transform: rotateZ(30deg);
+  }
+  100% {
+    transform: rotateZ(390deg);
+  }
+}
+.HOME .rside {
+  position: absolute;
+  top: 60px;
+  right: -100px;
+  animation: rotate 600s infinite linear;
+}
+.HOME .rside span {
+  font-size: 300px;
+}
+.HOME .lside {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+.HOME .lside span {
+  font-size: 200px;
+
+  transform: rotateZ(-30deg);
+}
+.HOME .lsideup {
+  position: absolute;
+  top: 20%;
+  left: 10px;
+  animation: rotateUP 300s infinite linear;
+}
+.HOME .lsideup span {
+  font-size: 150px;
+  transform: rotateZ(30deg);
+}
+.HOME #start {
+  color: white;
+  text-decoration: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-family: poppins;
+  background: rgb(21, 113, 204);
+  padding: 10px 15px;
+  font-size: 1rem;
+  border-radius: 7mm;
+  margin-top: 50px;
+  box-shadow: 5px 5px 0 rgba(21, 113, 204, 0.189);
+  transition: 0.25s;
+}
+.HOME #start:hover {
+  box-shadow: 3px 3px 0 rgba(21, 113, 204, 0.189);
+}
+.HOME .line-circle {
+  position: absolute;
+  bottom: 0;
+  width: 98%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+}
+.HOME .lines {
+  width: 100%;
+  flex-grow: 1;
+  height: 0.8mm;
+  border-radius: 2mm;
+  background: rgba(44, 44, 44, 0.518);
+}
+.HOME .circle {
+  min-width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 1mm solid rgba(44, 44, 44, 0.518);
+  margin: 0 2px;
+}
+.HOME .ads {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 50px;
+}
+.HOME .ad {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  flex-wrap: wrap;
+}
+.HOME .adv {
+  width: fit-content;
+  padding: 10px;
+  border: 0.5mm solid rgba(0, 0, 0, 0.098);
+  border-radius: 2mm;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px 0;
+}
+.HOME .adv-title {
+  width: 98%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: poppins;
+}
+.HOME .adv-title .title {
+  display: flex;
+  font-size: 1rem;
+  color: rgb(72, 72, 72);
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 6mm;
+  border: 0.5mm solid rgb(68, 68, 68);
+  margin-bottom: 15px;
+}
+.HOME .adv-title .title span {
+  font-size: 1.4rem;
+  margin-right: 2px;
+}
+.HOME .adv-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.HOME .adv-body {
+  font-family: poppins;
+  color: rgb(100, 100, 100);
+  font-size: 1rem;
+  padding-left: 5px;
+}
+.HOME .adv-img {
+  padding-right: 5px;
+  margin-left: 10px;
+}
+.HOME .adv-img img {
+  height: 50px;
+  border-radius: 2mm;
+}
+@media all and (max-width: 900px) {
+  .HOME .langs {
+    flex-direction: column;
+  }
+  .HOME .content .big {
+    font-size: 4rem;
+  }
+  .HOME .lang-img img {
+    width: 90%;
+  }
+  .HOME .lang-content {
+    width: 90%;
+  }
+}

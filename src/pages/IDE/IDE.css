@@ -1,0 +1,191 @@
+.IDEDITOR {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+  background: rgb(27, 30, 33);
+  position: relative;
+}
+.IDEDITOR .editor {
+  width: 100%;
+  height: fit-content;
+  box-sizing: border-box;
+}
+.IDEDITOR .editor .editor-main {
+  width: 100%;
+  height: calc(100vh - 300px);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.IDEDITOR .editor .editor-main .ide {
+  width: 100%;
+  flex-grow: 1;
+  box-sizing: border-box;
+}
+.IDEDITOR .editor .editor-main .editor-head {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 40px;
+  background: rgb(48, 50, 53);
+  border: 0.2mm solid rgb(64, 66, 71);
+  border-left: none;
+  border-right: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.IDEDITOR .editor .editor-main .editor-head .options {
+  flex-grow: 1;
+}
+.IDEDITOR .editor .editor-main .editor-head .qid {
+  font-family: poppins;
+  font-size: 14px;
+  color: white;
+}
+.IDEDITOR .editor .editor-main .editor-head .dropdown {
+  font-family: poppins;
+  font-size: 12px;
+  color: white;
+  background: rgb(41, 44, 46);
+  width: 150px;
+  padding: 2px 5px;
+  outline: none;
+  margin: 0 10px;
+}
+.IDEDITOR .editor .editor-out {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgb(48, 50, 53);
+  color: white;
+  padding-bottom: 0;
+}
+.IDEDITOR .editor .editor-out .block {
+  width: 100%;
+  height: 35px;
+  background: rgb(27, 30, 33);
+  border: 0.3mm solid rgb(64, 66, 71);
+  box-sizing: border-box;
+  border-left: none;
+  border-right: none;
+}
+.IDEDITOR .editor .editor-out h5 {
+  font-weight: 500;
+  font-family: poppins;
+  padding: 0 20px;
+}
+.IDEDITOR .editor .editor-out textarea {
+  width: calc(100% - 40px);
+  margin: auto;
+  display: block;
+  background: rgb(27, 30, 33);
+  border: 0.3mm solid rgb(93, 95, 103);
+  resize: none;
+  outline: none;
+  color: white;
+  font-family: poppins;
+  font-size: 14px;
+  box-sizing: border-box;
+  padding: 15px;
+  margin-bottom: 25px;
+  white-space: pre-line;
+}
+.IDEDITOR .editor .editor-out .controls {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  background: rgb(27, 30, 33);
+  border: 0.3mm solid rgb(64, 66, 71);
+  border-left: none;
+  border-right: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 12px 0;
+}
+.IDEDITOR .editor .editor-out .controls button {
+  width: 120px;
+  height: fit-content;
+  padding: 7px 15px;
+  font-family: poppins;
+  font-size: 15px;
+  font-weight: 500;
+  outline: none;
+  border: none;
+  border-radius: 0.5mm;
+  margin: 0 20px;
+}
+.IDEDITOR .editor .editor-out .controls button:nth-child(1) {
+  background: white;
+  color: rgb(3, 104, 205);
+}
+.IDEDITOR .editor .editor-out .controls button:nth-child(2) {
+  background: rgb(150, 251, 74);
+  color: black;
+}
+.IDEDITOR .editor .editor-out .output-area {
+  width: 100%;
+  min-height: 100px;
+  background: rgb(27, 30, 33);
+  box-sizing: border-box;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.IDEDITOR .editor .editor-out .output-area .stdout {
+  width: 100%;
+  height: fit-content;
+  border: 0.3mm solid rgb(64, 66, 71);
+}
+.IDEDITOR .editor .editor-out .output-area .stdout .out-status {
+  width: 100%;
+  background: rgb(220, 220, 220);
+  box-sizing: border-box;
+  padding: 10px 15px;
+  font-family: poppins;
+  font-size: 15px;
+  font-weight: 500;
+  color: rgb(27, 30, 33);
+  border-left: 2mm solid rgb(96, 105, 112);
+}
+.IDEDITOR .editor .editor-out .output-area .stdout .out-details {
+  width: 100%;
+  font-family: poppins;
+  font-size: 13px;
+  padding: 15px 0;
+}
+.IDEDITOR .editor .editor-out .output-area .stdout .out-details span {
+  margin: 15px 10px;
+}
+.IDEDITOR .editor .editor-out .output-area .stdout label {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px 20px;
+  font-family: poppins;
+  font-size: 14px;
+  font-weight: 600;
+}
+.IDEDITOR .editor .editor-out .output-area .stdout .result {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: poppins;
+  font-size: 45px;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 20px 0;
+  background: rgb(39, 150, 0);
+}
+.IDEDITOR .editor .editor-out .output-area .stdout .result span {
+  font-size: 18px;
+}

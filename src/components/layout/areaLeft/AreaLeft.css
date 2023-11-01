@@ -1,0 +1,16 @@
+.area-left {
+  flex-grow: 1;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.area-left img {
+  margin-top: 100px;
+  width: 300px;
+  height: 300px;
+}
+@media all and (max-width: 850px) {
+  .area-left {
+    display: none;
+  }
+}

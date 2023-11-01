@@ -1,0 +1,82 @@
+.CONTESTPAGE {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+.CONTESTPAGE .contest-main {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: rgb(27, 30, 33);
+}
+.CONTESTPAGE .contest-main .contest-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 15px 20px;
+}
+.CONTESTPAGE .contest-main .contest-head .left,
+.CONTESTPAGE .contest-main .contest-head .right {
+  flex-basis: 25%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  min-width: 180px;
+}
+.CONTESTPAGE .contest-main .contest-head .right {
+  justify-content: right;
+}
+.CONTESTPAGE .contest-main .contest-head .center {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.CONTESTPAGE .contest-main .contest-head .contest-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  outline: none;
+  border: none;
+  color: rgb(150, 251, 74);
+  cursor: pointer;
+}
+.CONTESTPAGE .contest-main .contest-head .contest-btn:hover {
+  background: rgb(40, 44, 48);
+}
+.CONTESTPAGE .contest-main .contest-head .contest-btn span {
+  font-size: 36px;
+}
+.CONTESTPAGE .contest-main .contest-head .contest-title {
+  font-size: 24px;
+  color: white;
+  font-family: poppins;
+  margin-left: 10px;
+}
+.CONTESTPAGE .contest-main .contest-head .right .name {
+  font-family: poppins;
+  font-size: 18px;
+  color: rgb(150, 251, 74);
+  margin-right: 10px;
+}
+.CONTESTPAGE .contest-main .contest-question {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: 50% 50%;
+}

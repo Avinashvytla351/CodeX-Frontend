@@ -1,0 +1,147 @@
+.contestCard.contest {
+  width: 300px;
+  height: 300px;
+  margin: 30px 0;
+  box-shadow: rgba(26, 32, 28, 0.1) 0px 1px 2px 0px,
+    rgba(0, 0, 0, 0.15) 0px 1px 3px 1px;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+  border-radius: 1mm;
+  background: white;
+}
+.contestCard.contest:hover {
+  box-shadow: none;
+  box-shadow: rgba(0, 0, 0, 0.17) 4px 20px 20px 0px;
+}
+.contestCard.contest::before {
+  content: "";
+  position: absolute;
+  top: 400px;
+  left: 0px;
+  width: 0px;
+  height: 0px;
+  transform: translate(-50%, -50%);
+  background: rgb(226, 255, 237);
+  transition: width 0.5s, height 0.5s;
+  border-radius: 50%;
+  z-index: -1;
+}
+.contestCard.contest:hover::before {
+  width: 1200px;
+  height: 1200px;
+}
+.contestCard .cardy {
+  display: block;
+  text-decoration: none;
+  width: 100%;
+  height: 300px;
+}
+.contestCard .card-content {
+  padding: 20px;
+  width: 260px;
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  z-index: 10;
+}
+.contestCard .card-content .title {
+  font-size: 18px;
+  font-family: poppins;
+  font-weight: 500;
+  color: rgb(35, 35, 35);
+  word-wrap: break-word;
+  flex-grow: 1;
+  align-self: flex-start;
+}
+.contestCard .card-content .details {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: poppins;
+  flex-grow: 1;
+}
+.contestCard .card-content .details .dura2 {
+  min-width: 50px;
+  min-height: 50px;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  text-align: center;
+  font-size: medium;
+  line-height: 50px;
+  background: rgb(255, 255, 255);
+  color: black;
+  border: 0.4mm solid rgb(81, 218, 133);
+  position: relative;
+  margin-bottom: 15px;
+}
+.contestCard .card-content .details .dura {
+  position: relative;
+  min-width: 50px;
+  min-height: 50px;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  text-align: center;
+  font-size: medium;
+  line-height: 50px;
+  background: rgb(81, 218, 133);
+  color: black;
+  border: 0.4mm solid rgb(255, 255, 255);
+  margin-bottom: 15px;
+  word-wrap: break-word;
+  font-size: 14px;
+}
+.contestCard .det-abs {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  font-size: small;
+  height: 15px;
+  transform: translate(-50%, 0);
+  width: fit-content;
+}
+.contestCard .con-date {
+  width: 100%;
+  flex-grow: 1;
+  text-align: center;
+  font-size: 14px;
+  font-family: poppins;
+  color: rgb(35, 35, 35);
+}
+.contestCard .participate {
+  width: fit-content;
+  background: rgb(196, 234, 207);
+  border: 0.5mm solid rgb(35, 35, 35);
+  padding: 7px 12px;
+  border-radius: 6mm;
+  font-family: poppins;
+  font-size: medium;
+  color: rgb(35, 35, 35);
+}
+.contestCard .active .participate {
+  background: rgb(81, 218, 133);
+}
+.contestCard .act-tag {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: fit-content;
+  font-size: 10px;
+  color: white;
+  background: rgb(52, 168, 83);
+  padding: 0, 5px;
+  font-family: poppins;
+  display: flex;
+  align-items: center;
+  border-radius: 3mm;
+  box-shadow: rgba(26, 32, 28, 0.1) 0px 1px 1px 0px,
+    rgba(0, 0, 0, 0.15) 0px 1px 1px 1px;
+}
+.contestCard .act-tag span {
+  font-size: 10px;
+}

@@ -1,0 +1,10 @@
+.doodle {
+  position: fixed;
+  top: 40%;
+  left: -500px;
+  width: 1000px;
+  height: 700px;
+  border-radius: 120mm;
+  background: rgb(239, 247, 207);
+  z-index: -1;
+}

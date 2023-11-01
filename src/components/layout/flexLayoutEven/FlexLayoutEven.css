@@ -1,0 +1,10 @@
+.FLEXLAYOUTEVEN {
+  width: 100%;
+  min-height: 95vh;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  position: relative;
+  flex-wrap: wrap;
+}

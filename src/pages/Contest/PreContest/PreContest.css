@@ -1,0 +1,144 @@
+.PRECONTEST {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+.PRECONTEST .HEROLAYOUTCENTER {
+  height: 100vh;
+  flex-wrap: wrap;
+}
+.PRECONTEST .form,
+.PRECONTEST .instructions {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 360px;
+  flex-direction: column;
+  position: relative;
+}
+.PRECONTEST .form {
+  flex-basis: 40%;
+}
+.PRECONTEST .instructions {
+  flex-basis: 60%;
+  background: url(../../../images/preContestBack.png) rgb(238, 255, 243);
+  background-size: cover;
+}
+.PRECONTEST .form form {
+  width: 350px;
+  height: fit-content;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.PRECONTEST .form form .inputf {
+  display: block;
+  width: 100%;
+  position: relative;
+  margin-bottom: 20px;
+}
+.PRECONTEST .form form .inputf .input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 10px;
+  padding-top: 0;
+  height: 40px;
+  font-size: 13px;
+  font-family: poppins;
+  border: none;
+  outline: 0.4mm solid rgb(150, 150, 150);
+  border-radius: 1mm;
+  transition: 0.25s;
+}
+.PRECONTEST .form form .inputf .input:focus {
+  outline: 0.4mm solid rgb(16, 144, 54);
+  padding-top: 14px;
+}
+
+.PRECONTEST .form form .inputf .label {
+  width: fit-content;
+  height: fit-content;
+  transition: 0.25s;
+  font-family: poppins;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(9, 86, 32, 0.5);
+  position: absolute;
+  top: 7px;
+  left: 10px;
+  transform: scale(0);
+}
+.PRECONTEST .form form .inputf .input:focus + .label {
+  top: 2px !important;
+  transform: scale(1) !important;
+}
+.PRECONTEST .form form .inputf .input:focus::placeholder {
+  display: none;
+  opacity: 0;
+}
+.PRECONTEST .form form .inputf .input:not(:placeholder-shown) + .label {
+  top: 2px !important;
+  transform: scale(1) !important;
+}
+.PRECONTEST .form form .inputf .input:not(:placeholder-shown) {
+  padding-top: 14px;
+}
+.PRECONTEST .form .btn {
+  width: 310px;
+  box-sizing: border-box;
+  padding: 10px 0;
+  font-family: poppins;
+  font-size: 14px;
+  background: rgb(16, 144, 54);
+  color: white;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 1mm;
+}
+.PRECONTEST .form img {
+  width: 100px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+.PRECONTEST .form form p {
+  width: 100%;
+  text-align: center;
+  font-family: "Major Mono Display";
+  font-size: 26px;
+  color: rgb(6, 50, 19);
+  padding-bottom: 20px;
+}
+.PRECONTEST .instructions .inst-title {
+  width: 100%;
+  font-family: "Major Mono Display";
+  text-align: center;
+  font-size: 26px;
+  color: rgb(6, 50, 19);
+}
+.PRECONTEST .instructions ol {
+  width: 100%;
+  margin-left: 50px;
+  font-family: poppins;
+  color: rgb(6, 50, 19);
+  line-height: 28px;
+  margin-top: 40px;
+  box-sizing: border-box;
+  padding-right: 25px;
+}
+.PRECONTEST .instructions ol li {
+  background: rgb(238, 255, 243);
+}
+.PRECONTEST .instructions p {
+  width: fit-content;
+  font-family: poppins;
+  font-size: 50px;
+  background: rgb(238, 255, 243);
+  color: rgb(6, 50, 19);
+  font-weight: 500;
+}

@@ -1,0 +1,90 @@
+.SIDEMENU {
+  width: 300px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  background: rgb(27, 30, 33);
+  font-family: poppins;
+  box-sizing: border-box;
+  padding: 15px 0;
+  box-shadow: rgba(50, 52, 50, 0.6) 20px 0px 20px;
+  transition: 0.25s;
+}
+.SIDEMENU .menu-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: rgb(150, 251, 74);
+  margin-bottom: 20px;
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+.SIDEMENU .menu-title button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  outline: none;
+  border: none;
+  color: rgb(150, 251, 74);
+  cursor: pointer;
+  transition: 0.25s;
+}
+.SIDEMENU .menu-title button span {
+  font-size: 20px;
+}
+.SIDEMENU .menu-title button:hover {
+  background: rgb(40, 44, 48);
+}
+.SIDEMENU .question-items {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.SIDEMENU .question-items .question-item {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 20px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  cursor: pointer;
+  position: relative;
+}
+.SIDEMENU .question-items .question-item.active::before {
+  position: absolute;
+  content: "arrow_right";
+  font-family: "Material Icons";
+  top: 50%;
+  left: 3px;
+  transform: translate(0, -50%);
+  color: white;
+  font-size: 18px;
+}
+.SIDEMENU .question-items .question-item:hover {
+  background: rgb(40, 44, 48);
+}
+.SIDEMENU .question-items .question-item .score {
+  width: 80px;
+  height: 30px;
+  font-size: 18px;
+  border-radius: 6mm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
