@@ -14,6 +14,7 @@ const ContestPage = ({ serverRoute }) => {
   const navigate = useNavigate();
   const token = Cookies.get("token"); //get token from cookies
   const username = Cookies.get("username"); //get token from cookies
+  const branch = Cookies.get("branch"); //get token from cookies
   const { contestId } = useParams();
   const [loading, setLoading] = useState(true); //page loader
   const [started, setStarted] = useState(false); //set if contest start button is clicked
@@ -32,12 +33,14 @@ const ContestPage = ({ serverRoute }) => {
     setStarted(event);
   };
 
+  useEffect(() => {
+    document.title = "Contest | KLHCode";
+  }, [started]);
   //Check if contest is on going or not and fetch the contest password
   const fetchContestData = async () => {
     try {
-      const isOngoing = await axios.post(
-        serverRoute + "/isOngoing",
-        { contestId: contestId }, // Replace 'yourContestIdVariable' with the actual contest ID
+      const isOngoing = await axios.get(
+        serverRoute + "/contest/active/" + contestId, // Replace 'yourContestIdVariable' with the actual contest ID
         {
           headers: {
             authorization: token, // Replace with the actual token source
@@ -53,9 +56,10 @@ const ContestPage = ({ serverRoute }) => {
 
       const adminData = isAdminResponse.data;
       setIsAdmin(adminData.success);
+
       if (isOngoing.data.success || isAdmin) {
         const contestReponse = await axios.get(
-          serverRoute + "/contests/" + contestId,
+          serverRoute + "/contest/" + contestId,
           {
             headers: {
               authorization: token, // Replace with the actual token source
@@ -80,56 +84,42 @@ const ContestPage = ({ serverRoute }) => {
     setLoading(true);
     try {
       if (open) {
-        const participationResponse = await axios.post(
-          serverRoute + "/participations",
+        //get all the questions for contest
+        const questionsResponse = await axios.post(
+          serverRoute + "/questions/contest/" + contestId,
           {
-            contestId: contestId,
+            username: username,
+            branch: branch,
           },
           {
             headers: {
-              authorization: token,
+              authorization: token, // Replace with the actual token source
             },
           }
         );
-        if (participationResponse.data.success) {
-          setValidTill(participationResponse.data.data.validTill);
+        if (questionsResponse.data.success) {
+          setQuestions(questionsResponse.data.data.questions);
+          setLoading(false);
+          setValidTill(questionsResponse.data.data.participation.validTill);
           setSubmissionResults(
-            participationResponse.data.data.submissionResults
+            questionsResponse.data.data.participation.submissionResults
           );
-
-          //get all the questions for contest
-          const questionsResponse = await axios.get(
-            serverRoute + "/questions/contests/" + contestId,
-            {
-              headers: {
-                authorization: token, // Replace with the actual token source
-              },
-            }
-          );
-          if (questionsResponse.data.success) {
-            setQuestions(questionsResponse.data.data);
-            setLoading(false);
-          } else {
-            navigate("/message", {
-              state: {
-                type: false,
-                message: "Unable to fetch questions for the contest",
-              },
-            });
-          }
         } else {
-          //Participation Error
           navigate("/message", {
             state: {
               type: false,
-              message: "Unable to participate in the contest",
+              message: "Unable to fetch questions for the contest",
             },
           });
         }
       }
     } catch (error) {
+      let message = "Unable to fetch contest data";
+      if (error.response && error.response.data.message) {
+        message = error.response.data.message;
+      }
       navigate("/message", {
-        state: { type: false, message: "Error while fetching contest data" },
+        state: { type: false, message: message },
       }); // with message
       setLoading(false);
     }

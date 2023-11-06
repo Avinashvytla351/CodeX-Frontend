@@ -6,6 +6,8 @@
   margin: 0;
   padding: 0;
   background: rgb(27, 30, 33);
+  padding-bottom: 50px;
+  box-sizing: border-box;
 }
 .QUESTION .questionMain {
   width: 100%;
@@ -89,4 +91,84 @@
 .QUESTION .example .inout .inout-value {
   word-wrap: break-word;
   white-space: pre-line;
+}
+.QUESTION .example .inout .material-icons-outlined:active {
+  color: rgb(82, 206, 111);
+}
+.QUESTION #accord1,
+.QUESTION #accord2 {
+  display: none;
+}
+.QUESTION .accordian {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 0 40px;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  margin: 15px 0;
+  margin-top: 25px;
+  cursor: pointer;
+}
+.QUESTION .accordian .icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+  position: relative;
+}
+.QUESTION .accordian .icon::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  content: "expand_more";
+  font-family: "Material Icons";
+  font-size: 20px;
+  color: white;
+}
+
+.QUESTION .collapse1,
+.QUESTION .collapse2 {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  flex-wrap: wrap;
+  max-height: 0;
+  overflow: hidden;
+  transition: 0.25s;
+}
+.QUESTION .collapse1 span,
+.QUESTION .collapse2 span {
+  font-family: poppins;
+  color: rgb(225, 227, 230);
+  font-size: 12px;
+  background: rgb(74, 77, 82);
+  padding: 5px 10px;
+  border-radius: 4mm;
+  margin-right: 10px;
+}
+.QUESTION #accord1:checked ~ .collapse1 {
+  max-height: 300px;
+}
+.QUESTION #accord1:checked ~ .collapse1 {
+  max-height: 300px;
+}
+.QUESTION #accord2:checked ~ .collapse2 {
+  max-height: 300px;
+}
+.QUESTION #accord1:checked + .accordian .icon::before {
+  content: "expand_less";
+}
+.QUESTION #accord2:checked + .accordian .icon::before {
+  content: "expand_less";
 }

@@ -11,6 +11,24 @@ const ContestPage = React.lazy(() =>
 const ContestAdd = React.lazy(() =>
   import("./pages/Admin/Contest/ContestAdd/ContestAdd")
 );
+const ContestEdit = React.lazy(() =>
+  import("./pages/Admin/Contest/ContestEdit/ContestEdit")
+);
+const ContestDelete = React.lazy(() =>
+  import("./pages/Admin/Contest/ContestDelete/ContestDelete")
+);
+const ExtendTime = React.lazy(() =>
+  import("./pages/Admin/Contest/ExtendTime/ExtendTime")
+);
+const QuestionAdd = React.lazy(() =>
+  import("./pages/Admin/Question/QuestionAdd/QuestionAdd")
+);
+const QuestionEdit = React.lazy(() =>
+  import("./pages/Admin/Question/QuestionEdit/QuestionEdit")
+);
+const QuestionDelete = React.lazy(() =>
+  import("./pages/Admin/Question/QuestionDelete/QuestionDelete")
+);
 
 const serverRoute = "http://localhost:5000";
 const clientRoute = "http://localhost:4000";
@@ -56,6 +74,83 @@ function App() {
           element={
             <React.Suspense fallback="">
               <ContestAdd serverRoute={serverRoute} clientRoute={clientRoute} />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="/admin/add/contest"
+          element={
+            <React.Suspense fallback="">
+              <ContestAdd serverRoute={serverRoute} clientRoute={clientRoute} />
+            </React.Suspense>
+          }
+        />
+
+        <Route
+          path="/admin/edit/contest"
+          element={
+            <React.Suspense fallback="">
+              <ContestEdit
+                serverRoute={serverRoute}
+                clientRoute={clientRoute}
+              />
+            </React.Suspense>
+          }
+        />
+
+        <Route
+          path="/admin/delete/contest"
+          element={
+            <React.Suspense fallback="">
+              <ContestDelete
+                serverRoute={serverRoute}
+                clientRoute={clientRoute}
+              />
+            </React.Suspense>
+          }
+        />
+
+        <Route
+          path="/admin/ExtendTime/contest"
+          element={
+            <React.Suspense fallback="">
+              <ExtendTime serverRoute={serverRoute} clientRoute={clientRoute} />
+            </React.Suspense>
+          }
+        />
+
+        <Route
+          path="/admin/add/question"
+          element={
+            <React.Suspense fallback="">
+              <QuestionAdd
+                serverRoute={serverRoute}
+                clientRoute={clientRoute}
+              />
+            </React.Suspense>
+          }
+        />
+
+        <Route
+          path="/admin/edit/question"
+          element={
+            <React.Suspense fallback="">
+              <QuestionEdit
+                serverRoute={serverRoute}
+                clientRoute={clientRoute}
+              />
+            </React.Suspense>
+          }
+        />
+
+        <Route
+          path="/admin/delete/question"
+          element={
+            <React.Suspense fallback="">
+              <QuestionDelete
+                serverRoute={serverRoute}
+                clientRoute={clientRoute}
+              />
             </React.Suspense>
           }
         />

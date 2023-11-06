@@ -5,11 +5,7 @@ function ContestCard({ data, active }) {
   return (
     <div className="contest contestCard">
       <a
-        href={`${
-          data.contestPassword && active
-            ? `contestPassword/${data.contestId}`
-            : `experiments/${data.contestId}`
-        }`}
+        href={`${`experiments/${data.contestId}`}`}
         target="_blank"
         className="cardy"
       >

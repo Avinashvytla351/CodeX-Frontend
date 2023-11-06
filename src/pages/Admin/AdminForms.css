@@ -45,3 +45,29 @@
   width: 100%;
   height: 36px !important;
 }
+.AllInputs .xlarge {
+  width: 100%;
+  height: 350px;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+.AllInputs .large {
+  width: 100%;
+  padding: 0 10px;
+  box-sizing: border-box;
+  height: 150px;
+}
+.AllInputs .large textarea {
+  height: 120px;
+  resize: none;
+}
+.AllInputs .small {
+  flex-grow: 1;
+  box-sizing: border-box;
+  padding: 0 10px;
+  max-width: 400px;
+}
+.AllInputs .small textarea {
+  height: 120px;
+  resize: none;
+}

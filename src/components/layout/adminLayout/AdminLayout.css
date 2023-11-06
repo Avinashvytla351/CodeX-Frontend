@@ -7,3 +7,27 @@
 .ADMINLAYOUT .subLayout {
   background: linear-gradient(to right, rgb(231, 231, 231), rgb(212, 212, 214));
 }
+.ADMINLAYOUT .subLayout .head {
+  background: white;
+  color: rgb(31, 124, 254);
+  font-weight: 600;
+  font-size: 20px;
+  margin: 0 8px;
+  box-sizing: border-box;
+  border-radius: 1mm;
+  display: flex;
+  align-items: center;
+}
+.ADMINLAYOUT .subLayout .head button {
+  background: none;
+  outline: none;
+  border: none;
+  margin-right: 15px;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: rgb(31, 124, 254);
+}

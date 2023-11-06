@@ -40,7 +40,7 @@ const Contest = (data) => {
         },
       })
       .then((response) => {
-        splitContests(response.data);
+        splitContests(response.data.data);
         setLoading(false);
         if (response.data.success === false) {
           navigate("/message", {

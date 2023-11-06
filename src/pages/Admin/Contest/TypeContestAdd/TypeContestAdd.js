@@ -16,6 +16,7 @@ import {
 import "../../AdminForms.css";
 import "./TypeContestAdd.css";
 import { PlusCircleOutlined, MinusCircleOutlined } from "@ant-design/icons";
+import moment from "moment";
 
 const SubmitButton = ({ form, onClicked }) => {
   const [submittable, setSubmittable] = React.useState(false);
@@ -34,7 +35,7 @@ const SubmitButton = ({ form, onClicked }) => {
         () => {
           setSubmittable(true);
         },
-        () => {
+        (err) => {
           setSubmittable(false);
         }
       );
@@ -51,7 +52,7 @@ const SubmitButton = ({ form, onClicked }) => {
   );
 };
 
-const TypeContestAdd = ({ questions, route, manual }) => {
+const TypeContestAdd = ({ questions, route, manual, defaultValues }) => {
   const token = Cookies.get("token");
   const [form] = Form.useForm();
   const [visibility, setVisibility] = useState(true); // Initialize the visibility state
@@ -92,16 +93,30 @@ const TypeContestAdd = ({ questions, route, manual }) => {
         }
         values.isMultipleSet = !manual;
         values.sets = !manual ? sets : [];
+        values.isManual = manual;
         try {
-          const contestReponse = await axios.post(
-            route, // pass the route
-            values, // set form values
-            {
-              headers: {
-                authorization: token, // Replace with the actual token source
-              },
-            }
-          );
+          var contestReponse = null;
+          if (defaultValues) {
+            contestReponse = await axios.put(
+              route, // pass the route
+              values, // set form values
+              {
+                headers: {
+                  authorization: token, // Replace with the actual token source
+                },
+              }
+            );
+          } else {
+            contestReponse = await axios.post(
+              route, // pass the route
+              values, // set form values
+              {
+                headers: {
+                  authorization: token, // Replace with the actual token source
+                },
+              }
+            );
+          }
           if (contestReponse) {
             setPopup({
               state: true,
@@ -116,10 +131,14 @@ const TypeContestAdd = ({ questions, route, manual }) => {
             });
           }
         } catch (error) {
+          let message = "Cannot update contest data";
+          if (error.response && error.response.data.message) {
+            message = error.response.data.message;
+          }
           setPopup({
             state: true,
             type: false,
-            message: "Cannot update contest data",
+            message: message,
           });
         }
       })
@@ -130,7 +149,6 @@ const TypeContestAdd = ({ questions, route, manual }) => {
           type: false,
           message: "Failed to send the contest data",
         });
-        console.log("Form validation failed:", errorInfo);
       });
   };
   const options = [];
@@ -147,7 +165,10 @@ const TypeContestAdd = ({ questions, route, manual }) => {
       state: false,
     });
   };
-  const [questionLists, setQuestionLists] = useState([]);
+
+  const [questionLists, setQuestionLists] = useState(
+    !manual && defaultValues ? Array(defaultValues.sets.length).fill(null) : []
+  );
 
   const handleAddQuestionList = () => {
     setQuestionLists([...questionLists, null]);
@@ -158,6 +179,48 @@ const TypeContestAdd = ({ questions, route, manual }) => {
     updatedLists.splice(index, 1);
     setQuestionLists(updatedLists);
   };
+
+  var initValues = {};
+  if (defaultValues) {
+    initValues = {
+      contestName: defaultValues.contestName,
+      contestPassword: defaultValues.contestPassword,
+      contestDate: moment(defaultValues.contestDate, "YYYY-MM-DD"),
+      contestStartTime: moment(
+        defaultValues.contestStartTime.slice(0, 2) +
+          ":" +
+          defaultValues.contestStartTime.slice(2, 4),
+        "HH:mm"
+      ),
+      contestEndTime: moment(
+        defaultValues.contestEndTime.slice(0, 2) +
+          ":" +
+          defaultValues.contestEndTime.slice(2, 4),
+        "HH:mm"
+      ),
+      contestDuration: defaultValues.contestDuration,
+    };
+    const optionLabels = new Set(options.map((option) => option.label));
+    if (manual) {
+      defaultValues.questionsList = defaultValues.questionsList.filter((id) =>
+        optionLabels.has(id)
+      );
+      initValues["questionsList"] = defaultValues.questionsList;
+    } else {
+      const updatedSets = [];
+
+      defaultValues.sets.forEach((set, index) => {
+        // Filter the elements in the set
+        const filteredSet = set.filter((id) => optionLabels.has(id));
+        updatedSets.push(filteredSet);
+        initValues[`set${index}`] = filteredSet;
+      });
+
+      // Update defaultValues.sets with the filtered sets
+      defaultValues.sets = updatedSets;
+    }
+  }
+
   return (
     <div className="TYPECONTEST">
       {popup.state && (
@@ -173,6 +236,7 @@ const TypeContestAdd = ({ questions, route, manual }) => {
         layout="vertical"
         autoComplete="off"
         className="adminForms"
+        initialValues={initValues}
       >
         <span className="AllInputs">
           <Form.Item
@@ -211,7 +275,7 @@ const TypeContestAdd = ({ questions, route, manual }) => {
             ]}
             className="vvsmall"
           >
-            <DatePicker />
+            <DatePicker format="YYYY-MM-DD" />
           </Form.Item>
           <Form.Item
             name="contestStartTime"
@@ -304,14 +368,17 @@ const TypeContestAdd = ({ questions, route, manual }) => {
             ))
           )}
           {!manual && (
-            <Button onClick={handleAddQuestionList}>
+            <Button onClick={handleAddQuestionList} id="set-btn">
               Add Set
               <PlusCircleOutlined />
             </Button>
           )}
         </span>
         <span className="AllInputs">
-          <Checkbox checked onChange={handleCheckboxChange}>
+          <Checkbox
+            defaultChecked={defaultValues ? defaultValues.visibility : true}
+            onChange={handleCheckboxChange}
+          >
             Visibility
           </Checkbox>
         </span>

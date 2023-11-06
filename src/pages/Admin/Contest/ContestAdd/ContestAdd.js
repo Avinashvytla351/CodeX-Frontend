@@ -8,6 +8,9 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../../../../components/loading/Loading";
 
 const ContestAdd = ({ serverRoute, clientRoute }) => {
+  useEffect(() => {
+    document.title = "Add Contest | KLHCode";
+  }, []);
   const token = Cookies.get("token");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -21,8 +24,8 @@ const ContestAdd = ({ serverRoute, clientRoute }) => {
           authorization: token, // Replace with the actual token source
         },
       });
-      if (questionsResponse.data) {
-        setQuestions(questionsResponse.data);
+      if (questionsResponse.data.success) {
+        setQuestions(questionsResponse.data.data);
       } else {
         navigate("/message", {
           state: { type: false, message: "Failed to Fetch questions" },
@@ -42,7 +45,11 @@ const ContestAdd = ({ serverRoute, clientRoute }) => {
   return (
     <div className="ADMINCONTESTADD">
       {!loading ? (
-        <AdminLayout serverRoute={serverRoute} clientRoute={clientRoute}>
+        <AdminLayout
+          serverRoute={serverRoute}
+          clientRoute={clientRoute}
+          heading={"Add Contest"}
+        >
           <div className="admin-main">
             <div className="admin-main-header">
               <div

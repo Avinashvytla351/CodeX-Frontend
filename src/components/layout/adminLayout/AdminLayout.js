@@ -12,7 +12,7 @@ import {
 
 import "./AdminLayout.css";
 
-const { Content, Sider, Footer } = Layout;
+const { Content, Sider, Header } = Layout;
 
 const AdminMenu = () => {
   const menuItems = [
@@ -98,8 +98,11 @@ const AdminMenu = () => {
   );
 };
 
-const AdminLayout = ({ serverRoute, clientRoute, children }) => {
+const AdminLayout = ({ serverRoute, clientRoute, children, heading, back }) => {
   const [collapsed, setCollapsed] = useState(true);
+  const handleRefresh = () => {
+    window.location.reload();
+  };
   return (
     <Layout className="ADMINLAYOUT">
       <Sider
@@ -135,6 +138,14 @@ const AdminLayout = ({ serverRoute, clientRoute, children }) => {
         <AdminMenu />
       </Sider>
       <Layout className="subLayout">
+        <Header className="head">
+          {back && (
+            <button type="button" onClick={handleRefresh} className="back-btn">
+              <span className="material-icons">west</span>
+            </button>
+          )}
+          {heading}
+        </Header>
         <Content
           style={{
             margin: "8px",
@@ -142,6 +153,7 @@ const AdminLayout = ({ serverRoute, clientRoute, children }) => {
             minHeight: 280,
             overflow: "auto",
             background: "white",
+            borderRadius: "1mm",
           }}
         >
           {children}

@@ -1,7 +1,16 @@
 import React from "react";
 import "./QuestionDesc.css";
+import StringToHTML from "../../components/stringToHTML/StringToHTML";
 
 const QuestionDesc = ({ question, solved }) => {
+  function copyToClipboard(text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textArea);
+  }
   return (
     <div className="QUESTION">
       {question ? (
@@ -29,7 +38,9 @@ const QuestionDesc = ({ question, solved }) => {
               )}
             </div>
           </div>
-          <p>{question.questionDescriptionText}</p>
+          <p>
+            <StringToHTML htmlString={question.questionDescriptionText} />
+          </p>
 
           <h3>Input</h3>
           <p>{question.questionInputText}</p>
@@ -41,7 +52,14 @@ const QuestionDesc = ({ question, solved }) => {
               <div className="inout">
                 <span className="example-heading">
                   Input
-                  <span className="material-icons-outlined">content_copy</span>
+                  <span
+                    className="material-icons-outlined"
+                    onClick={() =>
+                      copyToClipboard(question.questionExampleInput1)
+                    }
+                  >
+                    content_copy
+                  </span>
                 </span>
                 <div className="inout-value">
                   {question.questionExampleInput1}
@@ -50,7 +68,14 @@ const QuestionDesc = ({ question, solved }) => {
               <div className="inout">
                 <span className="example-heading">
                   Output
-                  <span className="material-icons-outlined">content_copy</span>
+                  <span
+                    className="material-icons-outlined"
+                    onClick={() =>
+                      copyToClipboard(question.questionExampleOutput1)
+                    }
+                  >
+                    content_copy
+                  </span>
                 </span>
                 <div className="inout-value">
                   {question.questionExampleOutput1}
@@ -64,7 +89,14 @@ const QuestionDesc = ({ question, solved }) => {
               <div className="inout">
                 <span className="example-heading">
                   Input
-                  <span className="material-icons-outlined">content_copy</span>
+                  <span
+                    className="material-icons-outlined"
+                    onClick={() =>
+                      copyToClipboard(question.questionExampleInput2)
+                    }
+                  >
+                    content_copy
+                  </span>
                 </span>
                 <div className="inout-value">
                   {question.questionExampleInput2}
@@ -73,7 +105,14 @@ const QuestionDesc = ({ question, solved }) => {
               <div className="inout">
                 <span className="example-heading">
                   Output
-                  <span className="material-icons-outlined">content_copy</span>
+                  <span
+                    className="material-icons-outlined"
+                    onClick={() =>
+                      copyToClipboard(question.questionExampleOutput2)
+                    }
+                  >
+                    content_copy
+                  </span>
                 </span>
                 <div className="inout-value">
                   {question.questionExampleOutput2}
@@ -87,7 +126,14 @@ const QuestionDesc = ({ question, solved }) => {
               <div className="inout">
                 <span className="example-heading">
                   Input
-                  <span className="material-icons-outlined">content_copy</span>
+                  <span
+                    className="material-icons-outlined"
+                    onClick={() =>
+                      copyToClipboard(question.questionExampleInput3)
+                    }
+                  >
+                    content_copy
+                  </span>
                 </span>
                 <div className="inout-value">
                   {question.questionExampleInput3}
@@ -96,7 +142,14 @@ const QuestionDesc = ({ question, solved }) => {
               <div className="inout">
                 <span className="example-heading">
                   Output
-                  <span className="material-icons-outlined">content_copy</span>
+                  <span
+                    className="material-icons-outlined"
+                    onClick={() =>
+                      copyToClipboard(question.questionExampleOutput3)
+                    }
+                  >
+                    content_copy
+                  </span>
                 </span>
                 <div className="inout-value">
                   {question.questionExampleOutput3}
@@ -104,6 +157,31 @@ const QuestionDesc = ({ question, solved }) => {
               </div>
             </div>
           )}
+          <input type="checkbox" name="" id="accord1" />
+          <label htmlFor="accord1" className="accordian">
+            Related Topics
+            <span className="icon"></span>
+          </label>
+          <div className="collapse1">
+            {question.topic.map((item, index) => (
+              <span className="collapse-item" key={index}>
+                {item}
+              </span>
+            ))}
+          </div>
+
+          <input type="checkbox" name="" id="accord2" />
+          <label htmlFor="accord2" className="accordian">
+            Related Companies
+            <span className="icon"></span>
+          </label>
+          <div className="collapse2">
+            {question.company.map((item, index) => (
+              <span className="collapse-item" key={index}>
+                {item}
+              </span>
+            ))}
+          </div>
         </div>
       ) : (
         <p>Loading question...</p>
