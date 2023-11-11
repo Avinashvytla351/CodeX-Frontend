@@ -29,6 +29,13 @@ const QuestionEdit = React.lazy(() =>
 const QuestionDelete = React.lazy(() =>
   import("./pages/Admin/Question/QuestionDelete/QuestionDelete")
 );
+const QuestionsView = React.lazy(() =>
+  import("./pages/Admin/Question/QuestionsView/QuestionsView")
+);
+const ManageUsers = React.lazy(() => import("./pages/Admin/users/manageUsers"));
+const ContestLeaderboard = React.lazy(() =>
+  import("./pages/Contest/ContestLeaderboard/ContestLeaderboard")
+);
 
 const serverRoute = "http://localhost:5000";
 const clientRoute = "http://localhost:4000";
@@ -65,6 +72,15 @@ function App() {
           element={
             <React.Suspense fallback="">
               <ContestPage serverRoute={serverRoute} />
+            </React.Suspense>
+          }
+        />
+
+        <Route
+          path="/leaderboard/:contestId"
+          element={
+            <React.Suspense fallback="">
+              <ContestLeaderboard serverRoute={serverRoute} />
             </React.Suspense>
           }
         />
@@ -148,6 +164,30 @@ function App() {
           element={
             <React.Suspense fallback="">
               <QuestionDelete
+                serverRoute={serverRoute}
+                clientRoute={clientRoute}
+              />
+            </React.Suspense>
+          }
+        />
+
+        <Route
+          path="/admin/view/question"
+          element={
+            <React.Suspense fallback="">
+              <QuestionsView
+                serverRoute={serverRoute}
+                clientRoute={clientRoute}
+              />
+            </React.Suspense>
+          }
+        />
+
+        <Route
+          path="/admin/manageUsers"
+          element={
+            <React.Suspense fallback="">
+              <ManageUsers
                 serverRoute={serverRoute}
                 clientRoute={clientRoute}
               />

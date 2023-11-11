@@ -43,10 +43,12 @@
   margin-bottom: 15px;
 }
 .QUESTION .difficulty,
-.QUESTION p {
+.QUESTION p,
+.QUESTION .desc {
   font-size: 14px;
 }
-.QUESTION p {
+.QUESTION p,
+.QUESTION .desc {
   padding: 0 40px;
   box-sizing: border-box;
   margin: 0;

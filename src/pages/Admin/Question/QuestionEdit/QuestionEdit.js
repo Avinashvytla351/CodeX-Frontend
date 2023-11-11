@@ -19,6 +19,8 @@ const QuestionEdit = ({ serverRoute, clientRoute }) => {
   const [companies, setCompanies] = useState([]);
   const [question, setQuestion] = useState({});
   const [back, setBack] = useState(false); //for the admin layout header
+
+  //Fetch Tags
   const fetchTags = async () => {
     try {
       const tagsResponse = await axios.get(serverRoute + "/tags", {
@@ -27,8 +29,8 @@ const QuestionEdit = ({ serverRoute, clientRoute }) => {
         },
       });
       if (tagsResponse.data.success) {
-        setCompanies(tagsResponse.data.tagData.companyTags);
-        setTopics(tagsResponse.data.tagData.topicTags);
+        setCompanies(tagsResponse.data.data.companyTags);
+        setTopics(tagsResponse.data.data.topicTags);
       } else {
         navigate("/message", {
           state: { type: false, message: "Failed to fetch tags" },

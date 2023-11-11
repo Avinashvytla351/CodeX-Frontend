@@ -270,7 +270,7 @@ const IDE = (props) => {
               language={selectedLanguage}
               options={{
                 fontSize: selectedSize,
-                contextmenu: false,
+                contextmenu: props.admin ? true : false,
               }}
               value={defaultCodeSnippets[selectedLanguage]}
               theme="vs-dark"

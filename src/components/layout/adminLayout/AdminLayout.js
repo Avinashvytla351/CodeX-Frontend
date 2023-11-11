@@ -11,10 +11,13 @@ import {
 } from "@ant-design/icons";
 
 import "./AdminLayout.css";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const { Content, Sider, Header } = Layout;
 
 const AdminMenu = () => {
+  const navigate = useNavigate();
   const menuItems = [
     {
       label: "Home",
@@ -42,7 +45,7 @@ const AdminMenu = () => {
         },
         {
           label: "Extend User Time",
-          key: "/extendUserTime",
+          key: "/admin/extendTime/contest",
         },
       ],
     },
@@ -65,18 +68,14 @@ const AdminMenu = () => {
           key: "/admin/delete/question",
         },
         {
-          label: "Delete Multiple Questions",
-          key: "/admin/deletequestions/multiple",
-        },
-        {
           label: "View All Questions",
-          key: "/admin/viewQuestion",
+          key: "/admin/view/question",
         },
       ],
     },
     {
       label: "Manage Users",
-      key: "/admin/manageusers",
+      key: "/admin/manageUsers",
       type: "main",
       icon: <UserSwitchOutlined />,
     },
@@ -94,6 +93,17 @@ const AdminMenu = () => {
       mode="inline"
       items={menuItems}
       style={{ width: "100%", overflow: "auto" }}
+      onClick={({ key }) => {
+        if (key == "/logout") {
+          Cookies.remove("token");
+          Cookies.remove("username");
+          Cookies.remove("branch");
+          Cookies.remove("user");
+          navigate("/");
+        } else {
+          navigate(key);
+        }
+      }}
     ></Menu>
   );
 };

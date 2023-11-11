@@ -38,9 +38,9 @@ const QuestionDesc = ({ question, solved }) => {
               )}
             </div>
           </div>
-          <p>
+          <div className="desc">
             <StringToHTML htmlString={question.questionDescriptionText} />
-          </p>
+          </div>
 
           <h3>Input</h3>
           <p>{question.questionInputText}</p>
@@ -157,31 +157,40 @@ const QuestionDesc = ({ question, solved }) => {
               </div>
             </div>
           )}
+
           <input type="checkbox" name="" id="accord1" />
-          <label htmlFor="accord1" className="accordian">
-            Related Topics
-            <span className="icon"></span>
-          </label>
-          <div className="collapse1">
-            {question.topic.map((item, index) => (
-              <span className="collapse-item" key={index}>
-                {item}
-              </span>
-            ))}
-          </div>
+          {question && question.topic && (
+            <label htmlFor="accord1" className="accordian">
+              Related Topics
+              <span className="icon"></span>
+            </label>
+          )}
+          {question && question.topic && (
+            <div className="collapse1">
+              {question.topic.map((item, index) => (
+                <span className="collapse-item" key={index}>
+                  {item}
+                </span>
+              ))}
+            </div>
+          )}
 
           <input type="checkbox" name="" id="accord2" />
-          <label htmlFor="accord2" className="accordian">
-            Related Companies
-            <span className="icon"></span>
-          </label>
-          <div className="collapse2">
-            {question.company.map((item, index) => (
-              <span className="collapse-item" key={index}>
-                {item}
-              </span>
-            ))}
-          </div>
+          {question && question.company && (
+            <label htmlFor="accord2" className="accordian">
+              Related Companies
+              <span className="icon"></span>
+            </label>
+          )}
+          {question && question.company && (
+            <div className="collapse2">
+              {question.company.map((item, index) => (
+                <span className="collapse-item" key={index}>
+                  {item}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       ) : (
         <p>Loading question...</p>

@@ -24,8 +24,8 @@ const QuestionAdd = ({ serverRoute, clientRoute }) => {
         },
       });
       if (tagsResponse.data.success) {
-        setCompanies(tagsResponse.data.tagData.companyTags);
-        setTopics(tagsResponse.data.tagData.topicTags);
+        setCompanies(tagsResponse.data.data.companyTags);
+        setTopics(tagsResponse.data.data.topicTags);
       } else {
         navigate("/message", {
           state: { type: false, message: "Failed to fetch tags" },
