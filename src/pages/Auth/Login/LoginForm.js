@@ -35,8 +35,16 @@ const LoginForm = (data) => {
       // Redirect to a Home page upon successful login
     } catch (error) {
       // Handle errors, e.g., display an error message
+      let message = error.message;
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        message = error.response.data.message;
+      }
       navigate("/message", {
-        state: { type: false, message: error.message },
+        state: { type: false, message: message },
       });
     }
   };

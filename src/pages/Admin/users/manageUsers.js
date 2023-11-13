@@ -34,9 +34,9 @@ const ManageUsers = ({ serverRoute, clientRoute }) => {
           authorization: token, // Replace with the actual token source
         },
       });
-      if (userResponse.data.length) {
+      if (userResponse.data.success) {
         let userData = [];
-        userResponse.data.forEach((user, index) => {
+        userResponse.data.data.forEach((user, index) => {
           let tempMap = {
             key: index + 1,
             username: user.username,
@@ -182,7 +182,7 @@ const ManageUsers = ({ serverRoute, clientRoute }) => {
       },
     },
     {
-      title: "operation",
+      title: "Delete User",
       dataIndex: "operation",
       render: (_, record) =>
         users.length >= 1 ? (
@@ -191,6 +191,19 @@ const ManageUsers = ({ serverRoute, clientRoute }) => {
             onConfirm={() => handleDelete(record.username, record.key)}
           >
             <a>Delete</a>
+          </Popconfirm>
+        ) : null,
+    },
+    {
+      title: "Verify User",
+      dataIndex: "operation",
+      render: (_, record) =>
+        users.length >= 1 && !record.status ? (
+          <Popconfirm
+            title="Sure to verify?"
+            onConfirm={() => handleVerify(record.username, record.key)}
+          >
+            <a>Verify</a>
           </Popconfirm>
         ) : null,
     },
@@ -217,6 +230,43 @@ const ManageUsers = ({ serverRoute, clientRoute }) => {
         state: true,
         type: false,
         message: "Failed to delete user",
+      });
+    }
+  };
+
+  const handleVerify = async (id, key) => {
+    try {
+      const verifyResponse = await axios.post(
+        serverRoute + "/admin/makeVerify",
+        {
+          username: id,
+        },
+        {
+          headers: {
+            authorization: token, // Replace with the actual token source
+          },
+        }
+      );
+      if (verifyResponse.data.success) {
+        const newData = [];
+        users.forEach((user) => {
+          if (user.key == key) {
+            user.status = true;
+          }
+          newData.push(user);
+        });
+        setUsers(newData);
+        setPopup({
+          state: true,
+          type: true,
+          message: "User verified successfully",
+        });
+      }
+    } catch (error) {
+      setPopup({
+        state: true,
+        type: false,
+        message: "Failed to verify user",
       });
     }
   };

@@ -154,7 +154,7 @@ const QuestionsView = ({ serverRoute, clientRoute }) => {
       ),
     },
     {
-      title: "operation",
+      title: "Delete",
       dataIndex: "operation",
       render: (_, record) =>
         questions.length >= 1 ? (

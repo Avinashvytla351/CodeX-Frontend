@@ -10,13 +10,14 @@ const IDE = (props) => {
   const username = Cookies.get("username");
   const containerRef = useRef(null);
   const [codeData, setCodeData] = useState({
-    source_code: "# Python code",
-    language_id: 34,
-    stdin: "",
+    sourceCode: "# Python code",
+    languageId: 34,
+    input: "",
     compiler_options: null,
     contestId: props.contestId ? props.contestId : "practice",
-    user: username,
+    username: username.toLowerCase(),
     questionId: props.questionId,
+    isRun: true,
   });
 
   const languageOptions = [
@@ -64,7 +65,7 @@ const IDE = (props) => {
     setSelectedLanguage(selectedValue);
     setCodeData({
       ...codeData,
-      language_id: languageId[selectedValue],
+      languageId: languageId[selectedValue],
     });
   };
 
@@ -77,14 +78,14 @@ const IDE = (props) => {
     // here is the current value
     setCodeData({
       ...codeData,
-      source_code: value,
+      sourceCode: value,
     });
   }
 
   function handleStdinChange(event) {
     setCodeData({
       ...codeData,
-      stdin: event.target.value,
+      input: event.target.value,
     });
   }
 
@@ -111,8 +112,12 @@ const IDE = (props) => {
     setLoading(true);
 
     // Send a POST request to the "runSubmission" endpoint with the new AbortController
+    setCodeData({
+      ...codeData,
+      isRun: true,
+    });
     axios
-      .post(`${props.serverRoute}/runSubmission`, codeData, {
+      .post(`${props.serverRoute}/validateSubmission`, codeData, {
         headers: {
           Authorization: token,
         },
@@ -121,23 +126,27 @@ const IDE = (props) => {
       .then((response) => {
         // Handle the response, e.g., display the output
         var tempStatus = "";
-        if (response.data.result.status.id) {
-          if (
-            response.data.result.status.id === 3 ||
-            response.data.result.status.id === 4
-          ) {
-            tempStatus = "Compiled Successfully";
+        if (response.data.success) {
+          if (response.data.data.status.id) {
+            if (
+              response.data.data.status.id === 3 ||
+              response.data.data.status.id === 4
+            ) {
+              tempStatus = "Compiled Successfully";
+            } else {
+              tempStatus = response.data.data.status.description;
+            }
           } else {
-            tempStatus = response.data.result.status.description;
+            tempStatus = "Failed due invalid code or Internal Error";
           }
         } else {
           tempStatus = "Failed due invalid code or Internal Error";
         }
         setStdout({
           statusVal: tempStatus,
-          memory: response.data.result.memory,
-          time: response.data.result.time,
-          outputVal: response.data.result.stdout || response.data.result.stderr,
+          memory: response.data.data.memory,
+          time: response.data.data.time,
+          outputVal: response.data.data.stdout || response.data.data.stderr,
           score: 0,
           run: true,
         });
@@ -178,6 +187,10 @@ const IDE = (props) => {
 
     // Set loading to true while making the request
     setLoading(true);
+    setCodeData({
+      ...codeData,
+      isRun: false,
+    });
 
     // Send a POST request to the "validateSubmission" endpoint with the new AbortController
     axios
@@ -195,13 +208,13 @@ const IDE = (props) => {
           memory: 0,
           time: 0,
           outputVal: "",
-          score: response.data.score,
+          score: response.data.data.score,
           run: false,
         });
 
         props.onScoreChange({
           id: props.questionId,
-          score: response.data.score,
+          score: response.data.data.score,
         });
       })
       .catch((error) => {
@@ -331,7 +344,7 @@ const IDE = (props) => {
                       id="output"
                       rows="7"
                       readOnly
-                      value={stdout.outputVal}
+                      value={stdout.outputVal ? stdout.outputVal : ""}
                     ></textarea>
                   ) : (
                     <div

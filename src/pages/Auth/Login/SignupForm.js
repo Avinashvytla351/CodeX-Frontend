@@ -28,7 +28,6 @@ const SignupForm = (data) => {
 
     try {
       const response = await axios.post(`${data.serverRoute}/signup`, formData);
-      console.log(response.data);
       // Handle the response as needed, e.g., show a success message or redirect
       if (response.data.success) {
         navigate("/message", {
@@ -46,9 +45,17 @@ const SignupForm = (data) => {
         });
       }
     } catch (error) {
+      let message = error.message;
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        message = error.response.data.message;
+      }
       // Handle errors, e.g., display an error message
       navigate("/message", {
-        state: { type: false, message: error.message },
+        state: { type: false, message: message },
       });
     }
   };

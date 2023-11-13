@@ -19,11 +19,14 @@ const ContestAdd = ({ serverRoute, clientRoute }) => {
 
   const fetchQuestions = async () => {
     try {
-      const questionsResponse = await axios.get(serverRoute + "/questions", {
-        headers: {
-          authorization: token, // Replace with the actual token source
-        },
-      });
+      const questionsResponse = await axios.get(
+        serverRoute + "/questions?queryString=questionId,questionName",
+        {
+          headers: {
+            authorization: token, // Replace with the actual token source
+          },
+        }
+      );
       if (questionsResponse.data.success) {
         setQuestions(questionsResponse.data.data);
       } else {
