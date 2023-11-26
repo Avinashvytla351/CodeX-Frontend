@@ -93,7 +93,7 @@ const IDE = (props) => {
 
   var abortController = new AbortController();
 
-  const handleRunClick = () => {
+  const handleRunClick = async () => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
@@ -116,61 +116,64 @@ const IDE = (props) => {
       ...codeData,
       isRun: true,
     });
-    axios
-      .post(`${props.serverRoute}/validateSubmission`, codeData, {
-        headers: {
-          Authorization: token,
-        },
-        signal: newAbortController.signal, // Associate the AbortController with the request
-      })
-      .then((response) => {
-        // Handle the response, e.g., display the output
-        var tempStatus = "";
-        if (response.data.success) {
-          if (response.data.data.status.id) {
-            if (
-              response.data.data.status.id === 3 ||
-              response.data.data.status.id === 4
-            ) {
-              tempStatus = "Compiled Successfully";
-            } else {
-              tempStatus = response.data.data.status.description;
-            }
+    let newCodeData = { ...codeData, isRun: true };
+
+    try {
+      const response = await axios.post(
+        `${props.serverRoute}/validateSubmission`,
+        newCodeData,
+        {
+          headers: {
+            Authorization: token,
+          },
+          signal: newAbortController.signal, // Associate the AbortController with the request
+        }
+      );
+      // Handle the response, e.g., display the output
+      var tempStatus = "";
+      if (response.data.success) {
+        if (response.data.data.status.id) {
+          if (
+            response.data.data.status.id === 3 ||
+            response.data.data.status.id === 4
+          ) {
+            tempStatus = "Compiled Successfully";
           } else {
-            tempStatus = "Failed due invalid code or Internal Error";
+            tempStatus = response.data.data.status.description;
           }
         } else {
           tempStatus = "Failed due invalid code or Internal Error";
         }
-        setStdout({
-          statusVal: tempStatus,
-          memory: response.data.data.memory,
-          time: response.data.data.time,
-          outputVal: response.data.data.stdout || response.data.data.stderr,
-          score: 0,
-          run: true,
-        });
-      })
-      .catch((error) => {
-        // Check if the request was aborted
-        setStdout({
-          statusVal: "Failed to Fetch the result",
-          memory: 0,
-          time: 0,
-          outputVal: "Check your internet connection or try after sometime",
-          score: 0,
-          run: true,
-        });
-      })
+      } else {
+        tempStatus = "Failed due invalid code or Internal Error";
+      }
 
-      .finally(() => {
-        // Set loading to false when the request is complete
-        setLoading(false);
-        setOutput("RUN");
+      setStdout({
+        statusVal: tempStatus,
+        memory: response.data.data.memory,
+        time: response.data.data.time,
+        outputVal: response.data.data.stdout || response.data.data.stderr,
+        score: 0,
+        run: true,
       });
+    } catch (error) {
+      console.log(error);
+      // Check if the request was aborted
+      setStdout({
+        statusVal: "Failed to Fetch the result",
+        memory: 0,
+        time: 0,
+        outputVal: "Check your internet connection or try after sometime",
+        score: 0,
+        run: true,
+      });
+    } finally {
+      setLoading(false);
+      setOutput("RUN");
+    }
   };
 
-  const handleSubmitClick = () => {
+  const handleSubmitClick = async () => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
@@ -192,57 +195,59 @@ const IDE = (props) => {
       isRun: false,
     });
 
-    // Send a POST request to the "validateSubmission" endpoint with the new AbortController
-    axios
-      .post(`${props.serverRoute}/validateSubmission`, codeData, {
-        headers: {
-          Authorization: token,
-        },
-        signal: newAbortController.signal, // Associate the AbortController with the request
-      })
-      .then((response) => {
-        // Handle the response, e.g., display the result
-        console.log(response.data);
-        setStdout({
-          statusVal: "Submitted Successfully",
-          memory: 0,
-          time: 0,
-          outputVal: "",
-          score: response.data.data.score,
-          run: false,
-        });
+    let newCodeData = { ...codeData, isRun: false };
 
-        props.onScoreChange({
-          id: props.questionId,
-          score: response.data.data.score,
-        });
-      })
-      .catch((error) => {
-        // Check if the request was aborted
-        if (error.name === "AbortError") {
-          console.log("Request aborted");
-        } else {
-          console.error("Error validating submission:", error);
+    try {
+      // Send a POST request to the "validateSubmission" endpoint with the new AbortController
+      const response = await axios.post(
+        `${props.serverRoute}/validateSubmission`,
+        newCodeData,
+        {
+          headers: {
+            Authorization: token,
+          },
+          signal: newAbortController.signal, // Associate the AbortController with the request
         }
-
-        setStdout({
-          statusVal: "Failed to Fetch the result",
-          memory: 0,
-          time: 0,
-          outputVal: "Check your internet connection or try after sometime",
-          score: 0,
-          run: false,
-        });
-        props.onScoreChange({
-          id: props.questionId,
-          score: 0,
-        });
-      })
-      .finally(() => {
-        // Set loading to false when the request is complete
-        setLoading(false);
-        setOutput("SUBMIT");
+      );
+      // Handle the response, e.g., display the result
+      setStdout({
+        statusVal: "Submitted Successfully",
+        memory: 0,
+        time: 0,
+        outputVal: "",
+        score: response.data.data.score,
+        run: false,
       });
+
+      props.onScoreChange({
+        id: props.questionId,
+        score: response.data.data.score,
+      });
+    } catch (error) {
+      // Check if the request was aborted
+      if (error.name === "AbortError") {
+        console.log("Request aborted");
+      } else {
+        console.error("Error validating submission:", error);
+      }
+
+      setStdout({
+        statusVal: "Failed to Fetch the result",
+        memory: 0,
+        time: 0,
+        outputVal: "Check your internet connection or try after sometime",
+        score: 0,
+        run: false,
+      });
+      props.onScoreChange({
+        id: props.questionId,
+        score: 0,
+      });
+    } finally {
+      // Set loading to false when the request is complete
+      setLoading(false);
+      setOutput("SUBMIT");
+    }
   };
 
   return (
@@ -313,7 +318,7 @@ const IDE = (props) => {
             placeholder="Your Input"
             onChange={handleStdinChange}
           ></textarea>
-          {output && (
+          {(output || loading) && (
             <div className="output-area">
               {loading ? (
                 <Oval

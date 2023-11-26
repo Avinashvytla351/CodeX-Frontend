@@ -1,0 +1,130 @@
+.MCQQUESTIONDESC {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+  background: rgb(27, 30, 33);
+  padding-bottom: 50px;
+  box-sizing: border-box;
+  animation: scalein 0.25s ease-in-out;
+}
+@keyframes scalein {
+  from {
+    transform: scale(0.98) translateY(10px);
+  }
+}
+.MCQQUESTIONDESC .questionMain {
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: poppins;
+  color: white;
+}
+.MCQQUESTIONDESC h2 {
+  width: 100%;
+  font-weight: 500;
+  margin: 10px 0;
+  margin-top: 0;
+  padding: 3px 40px;
+  box-sizing: border-box;
+  background: rgb(48, 50, 53);
+  border: 0.2mm solid rgb(64, 66, 71);
+  border-right: none;
+  border-left: none;
+}
+.MCQQUESTIONDESC h3 {
+  font-weight: 500;
+  padding: 0 40px;
+  margin-bottom: 10px;
+  margin-top: 25px;
+  box-sizing: border-box;
+}
+.MCQQUESTIONDESC .title-details {
+  display: flex;
+  align-items: center;
+  border-bottom: 0.3mm solid rgb(61, 64, 67);
+  padding: 10px 40px;
+  box-sizing: border-box;
+  padding-top: 0;
+  margin-bottom: 15px;
+}
+.MCQQUESTIONDESC .difficulty,
+.MCQQUESTIONDESC p,
+.MCQQUESTIONDESC .desc {
+  font-size: 14px;
+}
+.MCQQUESTIONDESC p,
+.MCQQUESTIONDESC .desc {
+  padding: 0 40px;
+  box-sizing: border-box;
+  margin: 0;
+  white-space: pre-line;
+}
+.MCQQUESTIONDESC .desc p,
+.MCQQUESTIONDESC .desc h2,
+.MCQQUESTIONDESC .desc h3 {
+  margin: 0;
+  padding: 0;
+}
+.MCQQUESTIONDESC .img {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.MCQQUESTIONDESC .options {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 40px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+.MCQQUESTIONDESC .option-wrap {
+  display: block;
+  width: 100%;
+}
+.MCQQUESTIONDESC .options label {
+  display: block;
+  width: 100%;
+  height: fit-content;
+  box-sizing: border-box;
+  padding: 10px 15px;
+  padding-left: 45px;
+  background: white;
+  color: black;
+  margin: 10px 0;
+  border-radius: 1mm;
+  cursor: pointer;
+  position: relative;
+}
+.MCQQUESTIONDESC .options input {
+  display: none;
+}
+.MCQQUESTIONDESC .options label:hover {
+  background: rgb(215, 215, 215);
+}
+.MCQQUESTIONDESC .options label::before {
+  position: absolute;
+  content: "radio_button_unchecked";
+  font-family: "Material Icons";
+  top: 50%;
+  left: 15px;
+  transform: translate(0, -50%);
+  color: rgb(180, 180, 180);
+  font-size: 22px;
+}
+.MCQQUESTIONDESC .options input:checked + label {
+  background: rgb(53, 137, 255);
+  outline: 0.5mm solid rgb(162, 201, 255);
+  color: white;
+}
+.MCQQUESTIONDESC .options input:checked + label::before {
+  content: "check_circle";
+  color: rgb(255, 255, 255);
+}

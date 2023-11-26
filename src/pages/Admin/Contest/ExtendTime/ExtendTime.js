@@ -62,16 +62,19 @@ const ExtendTime = ({ serverRoute, clientRoute }) => {
 
   const fetchContests = async () => {
     try {
-      const contestsResponse = await axios.get(serverRoute + "/contests", {
-        headers: {
-          authorization: token, // Replace with the actual token source
-        },
-      });
+      const contestsResponse = await axios.get(
+        serverRoute + "/contests/coding",
+        {
+          headers: {
+            authorization: token, // Replace with the actual token source
+          },
+        }
+      );
       if (contestsResponse.data.success) {
         let option = [];
         contestsResponse.data.data.forEach((contest, index) => {
           option.push({
-            label: contest.contestId,
+            label: contest.contestId + " - " + contest.contestName,
             value: contest.contestId,
           });
         });
@@ -150,7 +153,8 @@ const ExtendTime = ({ serverRoute, clientRoute }) => {
       <AdminLayout
         serverRoute={serverRoute}
         clientRoute={clientRoute}
-        heading={"Delete Contest"}
+        heading={"Extend User Time"}
+        defaultKey={"/admin/extendTime/contest"}
       >
         <Form
           form={form}

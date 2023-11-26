@@ -8,6 +8,8 @@ import {
   MenuUnfoldOutlined,
   HomeOutlined,
   LogoutOutlined,
+  ExperimentOutlined,
+  CheckSquareOutlined,
 } from "@ant-design/icons";
 
 import "./AdminLayout.css";
@@ -16,7 +18,7 @@ import Cookies from "js-cookie";
 
 const { Content, Sider, Header } = Layout;
 
-const AdminMenu = () => {
+const AdminMenu = ({ defaultKey }) => {
   const navigate = useNavigate();
   const menuItems = [
     {
@@ -29,7 +31,7 @@ const AdminMenu = () => {
       label: "Manage Contests",
       key: "1",
       type: "main",
-      icon: <BuildOutlined />,
+      icon: <ExperimentOutlined />,
       children: [
         {
           label: "Add Contests",
@@ -74,6 +76,30 @@ const AdminMenu = () => {
       ],
     },
     {
+      label: "Manage MCQ Contests",
+      key: "3",
+      type: "main",
+      icon: <BuildOutlined />,
+      children: [
+        {
+          label: "Add MCQ Contests",
+          key: "/admin/add/mcqContest",
+        },
+      ],
+    },
+    {
+      label: "Manage MCQ Question",
+      key: "4",
+      type: "main",
+      icon: <CheckSquareOutlined />,
+      children: [
+        {
+          label: "Add MCQ Question",
+          key: "/admin/add/mcq",
+        },
+      ],
+    },
+    {
       label: "Manage Users",
       key: "/admin/manageUsers",
       type: "main",
@@ -93,6 +119,7 @@ const AdminMenu = () => {
       mode="inline"
       items={menuItems}
       style={{ width: "100%", overflow: "auto" }}
+      defaultSelectedKeys={defaultKey ? [defaultKey] : ["/admin/add/contest"]}
       onClick={({ key }) => {
         if (key == "/logout") {
           Cookies.remove("token");
@@ -108,7 +135,14 @@ const AdminMenu = () => {
   );
 };
 
-const AdminLayout = ({ serverRoute, clientRoute, children, heading, back }) => {
+const AdminLayout = ({
+  serverRoute,
+  clientRoute,
+  children,
+  heading,
+  back,
+  defaultKey,
+}) => {
   const [collapsed, setCollapsed] = useState(true);
   const handleRefresh = () => {
     window.location.reload();
@@ -145,7 +179,7 @@ const AdminLayout = ({ serverRoute, clientRoute, children, heading, back }) => {
             background: "white",
           }}
         />
-        <AdminMenu />
+        <AdminMenu defaultKey={defaultKey} />
       </Sider>
       <Layout className="subLayout">
         <Header className="head">

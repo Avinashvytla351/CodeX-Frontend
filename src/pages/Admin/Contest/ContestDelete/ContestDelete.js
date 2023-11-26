@@ -75,6 +75,7 @@ const ContestDelete = ({ serverRoute, clientRoute }) => {
         serverRoute={serverRoute}
         clientRoute={clientRoute}
         heading={"Delete Contest"}
+        defaultKey={"/admin/delete/contest"}
       >
         <ContestFetch
           serverRoute={serverRoute}

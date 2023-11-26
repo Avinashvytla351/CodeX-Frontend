@@ -61,11 +61,14 @@ const ContestFetch = ({ serverRoute, onContestFetch, deleteList }) => {
 
   const fetchContests = async () => {
     try {
-      const contestsResponse = await axios.get(serverRoute + "/contests", {
-        headers: {
-          authorization: token, // Replace with the actual token source
-        },
-      });
+      const contestsResponse = await axios.get(
+        serverRoute + "/contests/coding",
+        {
+          headers: {
+            authorization: token, // Replace with the actual token source
+          },
+        }
+      );
       if (contestsResponse.data.success) {
         setContests(contestsResponse.data.data);
         let option = [];

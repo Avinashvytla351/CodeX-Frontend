@@ -57,9 +57,9 @@ const HeaderBig = ({ imgUsername }) => {
               </button>
               <button
                 className="nav-btn"
-                onClick={() => navigate("/leaderboard")}
+                onClick={() => navigate("/challenges")}
               >
-                Leaderboard
+                Challenges
               </button>
             </>
           )}
@@ -86,7 +86,7 @@ const HeaderBig = ({ imgUsername }) => {
               data={{
                 Home: "/",
                 Experiments: "/experiments",
-                Leaderboard: "/leaderboard",
+                Challenges: "/challenges",
                 Profile: `/profile/${imgUsername}`,
               }}
               logout={true}

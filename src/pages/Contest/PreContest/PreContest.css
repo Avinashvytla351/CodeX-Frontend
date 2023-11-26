@@ -88,6 +88,8 @@
   padding-top: 14px;
 }
 .PRECONTEST .form .btn {
+  display: block;
+  text-align: center;
   width: 310px;
   box-sizing: border-box;
   padding: 10px 0;
@@ -99,6 +101,8 @@
   border: none;
   cursor: pointer;
   border-radius: 1mm;
+  text-decoration: none;
+  margin-bottom: 20px;
 }
 .PRECONTEST .form img {
   width: 100px;

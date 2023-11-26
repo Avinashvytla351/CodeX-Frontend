@@ -21,7 +21,7 @@
   align-items: center;
   justify-content: space-between;
   font-size: 14px;
-  color: rgb(150, 251, 74);
+  color: var(--color);
   margin-bottom: 20px;
   width: 100%;
   padding: 0 20px;
@@ -37,7 +37,7 @@
   background: none;
   outline: none;
   border: none;
-  color: rgb(150, 251, 74);
+  color: var(--color);
   cursor: pointer;
   transition: 0.25s;
 }
@@ -65,6 +65,10 @@
   color: white;
   cursor: pointer;
   position: relative;
+  border-bottom: 0.5mm solid rgb(44, 58, 81);
+}
+.SIDEMENU .question-items .question-item:nth-child(1) {
+  border-top: 0.5mm solid rgb(44, 58, 81);
 }
 .SIDEMENU .question-items .question-item.active::before {
   position: absolute;

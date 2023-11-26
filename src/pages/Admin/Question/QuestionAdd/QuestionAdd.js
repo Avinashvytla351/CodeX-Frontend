@@ -33,8 +33,16 @@ const QuestionAdd = ({ serverRoute, clientRoute }) => {
       }
       setLoading(false);
     } catch (error) {
+      let message = "Failed to fetch tags";
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        message = error.response.data.message;
+      }
       navigate("/message", {
-        state: { type: false, message: "Failed to fetch tags" },
+        state: { type: false, message: message },
       });
     }
   };
@@ -48,6 +56,7 @@ const QuestionAdd = ({ serverRoute, clientRoute }) => {
           serverRoute={serverRoute}
           clientRoute={clientRoute}
           heading={"Add Question"}
+          defaultKey={"/admin/add/question"}
         >
           <div className="admin-main">
             <QuestionAddForm

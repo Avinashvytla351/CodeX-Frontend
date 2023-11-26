@@ -59,6 +59,7 @@ const QuestionEdit = ({ serverRoute, clientRoute }) => {
           clientRoute={clientRoute}
           heading={"Edit Question"}
           back={back}
+          defaultKey={"/admin/edit/question"}
         >
           {Object.keys(question).length ? (
             <div className="admin-main">

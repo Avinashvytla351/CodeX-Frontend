@@ -36,6 +36,14 @@ const ManageUsers = React.lazy(() => import("./pages/Admin/users/manageUsers"));
 const ContestLeaderboard = React.lazy(() =>
   import("./pages/Contest/ContestLeaderboard/ContestLeaderboard")
 );
+const MCQAdd = React.lazy(() => import("./pages/Admin/MCQ/MCQAdd/MCQAdd"));
+const MCQContestAdd = React.lazy(() =>
+  import("./pages/Admin/MCQ/MCQContest/MCQContestAdd/MCQContestAdd")
+);
+const MCQContest = React.lazy(() => import("./pages/MCQContest/MCQContest"));
+const MCQContestPage = React.lazy(() =>
+  import("./pages/MCQContest/MCQContestPage/MCQContestPage")
+);
 
 const serverRoute = "http://localhost:5000";
 const clientRoute = "http://localhost:4000";
@@ -81,6 +89,24 @@ function App() {
           element={
             <React.Suspense fallback="">
               <ContestLeaderboard serverRoute={serverRoute} />
+            </React.Suspense>
+          }
+        />
+
+        <Route
+          path="/challenges"
+          element={
+            <React.Suspense fallback="">
+              <MCQContest serverRoute={serverRoute} />
+            </React.Suspense>
+          }
+        />
+
+        <Route
+          path="/challenges/:contestId"
+          element={
+            <React.Suspense fallback="">
+              <MCQContestPage serverRoute={serverRoute} />
             </React.Suspense>
           }
         />
@@ -188,6 +214,27 @@ function App() {
           element={
             <React.Suspense fallback="">
               <ManageUsers
+                serverRoute={serverRoute}
+                clientRoute={clientRoute}
+              />
+            </React.Suspense>
+          }
+        />
+
+        <Route
+          path="/admin/add/mcq"
+          element={
+            <React.Suspense fallback="">
+              <MCQAdd serverRoute={serverRoute} clientRoute={clientRoute} />
+            </React.Suspense>
+          }
+        />
+
+        <Route
+          path="/admin/add/mcqContest"
+          element={
+            <React.Suspense fallback="">
+              <MCQContestAdd
                 serverRoute={serverRoute}
                 clientRoute={clientRoute}
               />

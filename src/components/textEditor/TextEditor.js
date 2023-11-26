@@ -32,10 +32,11 @@ const formats = [
   "code",
 ];
 
-const TextEditor = ({ value, onChange, placeholder }) => {
+const TextEditor = ({ value, onChange, placeholder, height }) => {
   return (
     <>
       <ReactQuill
+        style={{ height: height ? height : 280 }}
         theme="snow"
         value={value || ""}
         modules={modules}

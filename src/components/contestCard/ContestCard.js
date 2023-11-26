@@ -1,14 +1,24 @@
 import React from "react";
 import "./ContestCard.css";
 
-function ContestCard({ data, active }) {
+function ContestCard({
+  data,
+  active,
+  beforeColor,
+  detailsColor,
+  buttonColor,
+  tagColor,
+  route,
+}) {
+  const cardStyle = {
+    "--before": beforeColor,
+    "--details": detailsColor,
+    "--button": buttonColor,
+    "--tag": tagColor,
+  };
   return (
-    <div className="contest contestCard">
-      <a
-        href={`${`experiments/${data.contestId}`}`}
-        target="_blank"
-        className="cardy"
-      >
+    <div className="contest contestCard" style={cardStyle}>
+      <a href={route} target="_blank" className="cardy">
         {active && (
           <div className="act-tag">
             <span className="material-icons-round"> star </span>Active

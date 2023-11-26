@@ -22,7 +22,7 @@
   width: 0px;
   height: 0px;
   transform: translate(-50%, -50%);
-  background: rgb(226, 255, 237);
+  background: var(--before);
   transition: width 0.5s, height 0.5s;
   border-radius: 50%;
   z-index: -1;
@@ -75,7 +75,7 @@
   line-height: 50px;
   background: rgb(255, 255, 255);
   color: black;
-  border: 0.4mm solid rgb(81, 218, 133);
+  border: 0.4mm solid var(--details);
   position: relative;
   margin-bottom: 15px;
 }
@@ -89,7 +89,7 @@
   text-align: center;
   font-size: medium;
   line-height: 50px;
-  background: rgb(81, 218, 133);
+  background: var(--details);
   color: black;
   border: 0.4mm solid rgb(255, 255, 255);
   margin-bottom: 15px;
@@ -115,16 +115,13 @@
 }
 .contestCard .participate {
   width: fit-content;
-  background: rgb(196, 234, 207);
+  background: var(--button);
   border: 0.5mm solid rgb(35, 35, 35);
   padding: 7px 12px;
   border-radius: 6mm;
   font-family: poppins;
   font-size: medium;
   color: rgb(35, 35, 35);
-}
-.contestCard .active .participate {
-  background: rgb(81, 218, 133);
 }
 .contestCard .act-tag {
   position: absolute;
@@ -133,7 +130,7 @@
   width: fit-content;
   font-size: 10px;
   color: white;
-  background: rgb(52, 168, 83);
+  background: var(--tag);
   padding: 0, 5px;
   font-family: poppins;
   display: flex;

@@ -1,0 +1,8 @@
+.MCQQUESTIONFORM {
+  width: 100%;
+}
+.MCQQUESTIONFORM .ant-upload-wrapper,
+.MCQQUESTIONFORM .ant-upload-list {
+  width: fit-content;
+  max-width: 220px;
+}

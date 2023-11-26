@@ -2,21 +2,9 @@ import React, { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Popup from "../../../../components/popUp/Popup";
-import {
-  Button,
-  Checkbox,
-  Form,
-  Input,
-  Space,
-  DatePicker,
-  TimePicker,
-  InputNumber,
-  Select,
-} from "antd";
+import { Button, Form, Input, Space, Select } from "antd";
 import "../../AdminForms.css";
 import "./QuestionAddForm.css";
-import { PlusCircleOutlined, MinusCircleOutlined } from "@ant-design/icons";
-import moment from "moment";
 import TextEditor from "../../../../components/textEditor/TextEditor";
 
 const { TextArea } = Input;

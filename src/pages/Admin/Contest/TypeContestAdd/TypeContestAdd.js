@@ -117,7 +117,7 @@ const TypeContestAdd = ({ questions, route, manual, defaultValues }) => {
               }
             );
           }
-          if (contestReponse) {
+          if (contestReponse.data.success) {
             setPopup({
               state: true,
               type: true,

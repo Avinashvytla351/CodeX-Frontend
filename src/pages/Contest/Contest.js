@@ -31,7 +31,7 @@ const Contest = (data) => {
   useEffect(() => {
     // Make an Axios GET request to fetch contest data
     axios
-      .get(data.serverRoute + "/contests", {
+      .get(data.serverRoute + "/contests/coding", {
         headers: {
           authorization: token,
         },
@@ -96,11 +96,21 @@ const Contest = (data) => {
                   .filter((item) => {
                     return filter.toLowerCase() === ""
                       ? item
-                      : item.contestName.toLowerCase().includes(filter);
+                      : item.contestName
+                          .toLowerCase()
+                          .includes(filter.toLowerCase());
                   })
                   .map((contest, index) => (
                     <React.Suspense fallback="" key={index}>
-                      <ContestCard data={contest} active={true} />
+                      <ContestCard
+                        data={contest}
+                        active={true}
+                        beforeColor={"rgb(226, 255, 237)"}
+                        detailsColor={"rgb(81, 218, 133)"}
+                        buttonColor={"rgb(196, 234, 207)"}
+                        tagColor={"rgb(52, 168, 83)"}
+                        route={`experiments/${contest.contestId}`}
+                      />
                     </React.Suspense>
                   ))}
               </div>
@@ -112,11 +122,20 @@ const Contest = (data) => {
                   .filter((item) => {
                     return filter.toLowerCase() === ""
                       ? item
-                      : item.contestName.toLowerCase().includes(filter);
+                      : item.contestName
+                          .toLowerCase()
+                          .includes(filter.toLowerCase());
                   })
                   .map((contest, index) => (
                     <React.Suspense fallback="" key={index}>
-                      <ContestCard data={contest} />
+                      <ContestCard
+                        data={contest}
+                        beforeColor={"rgb(226, 255, 237)"}
+                        detailsColor={"rgb(81, 218, 133)"}
+                        buttonColor={"rgb(196, 234, 207)"}
+                        tagColor={"rgb(52, 168, 83)"}
+                        route={`experiments/${contest.contestId}`}
+                      />
                     </React.Suspense>
                   ))}
               </div>

@@ -66,11 +66,14 @@ const QuestionFetch = ({
 
   const fetchQuestions = async () => {
     try {
-      const questionResponse = await axios.get(serverRoute + "/questions", {
-        headers: {
-          authorization: token, // Replace with the actual token source
-        },
-      });
+      const questionResponse = await axios.get(
+        serverRoute + "/questions/coding",
+        {
+          headers: {
+            authorization: token, // Replace with the actual token source
+          },
+        }
+      );
       if (questionResponse.data.success) {
         setQuestions(questionResponse.data.data);
         let option = [];

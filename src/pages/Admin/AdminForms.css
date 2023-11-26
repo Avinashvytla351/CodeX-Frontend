@@ -71,3 +71,10 @@
   height: 120px;
   resize: none;
 }
+.blocked {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 25px;
+}

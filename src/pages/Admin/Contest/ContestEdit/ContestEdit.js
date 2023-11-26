@@ -22,11 +22,14 @@ const ContestEdit = ({ serverRoute, clientRoute }) => {
 
   const fetchQuestions = async () => {
     try {
-      const questionsResponse = await axios.get(serverRoute + "/questions", {
-        headers: {
-          authorization: token, // Replace with the actual token source
-        },
-      });
+      const questionsResponse = await axios.get(
+        serverRoute + "/questions/coding?queryString=questionId,questionName",
+        {
+          headers: {
+            authorization: token, // Replace with the actual token source
+          },
+        }
+      );
       if (questionsResponse.data.success) {
         setQuestions(questionsResponse.data.data);
       } else {
@@ -63,6 +66,7 @@ const ContestEdit = ({ serverRoute, clientRoute }) => {
           clientRoute={clientRoute}
           heading={"Edit Contest"}
           back={back}
+          defaultKey={"/admin/edit/contest"}
         >
           {Object.keys(contest).length ? (
             <div className="admin-main">

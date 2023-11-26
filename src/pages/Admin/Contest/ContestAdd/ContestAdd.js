@@ -20,7 +20,7 @@ const ContestAdd = ({ serverRoute, clientRoute }) => {
   const fetchQuestions = async () => {
     try {
       const questionsResponse = await axios.get(
-        serverRoute + "/questions?queryString=questionId,questionName",
+        serverRoute + "/questions/coding?queryString=questionId,questionName",
         {
           headers: {
             authorization: token, // Replace with the actual token source
@@ -52,6 +52,7 @@ const ContestAdd = ({ serverRoute, clientRoute }) => {
           serverRoute={serverRoute}
           clientRoute={clientRoute}
           heading={"Add Contest"}
+          defaultKey={"/admin/add/contest"}
         >
           <div className="admin-main">
             <div className="admin-main-header">

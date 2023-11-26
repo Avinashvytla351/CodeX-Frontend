@@ -15,8 +15,8 @@ const IDE = React.lazy(() => import("../../IDE/IDE"));
 const ContestPage = ({ serverRoute }) => {
   const navigate = useNavigate();
   const token = Cookies.get("token"); //get token from cookies
-  const username = Cookies.get("username"); //get token from cookies
-  const branch = Cookies.get("branch"); //get token from cookies
+  const username = Cookies.get("username"); //get username from cookies
+  const branch = Cookies.get("branch"); //get branch from cookies
   const { contestId } = useParams();
   const [loading, setLoading] = useState(true); //page loader
   const [started, setStarted] = useState(false); //set if contest start button is clicked
@@ -25,7 +25,7 @@ const ContestPage = ({ serverRoute }) => {
   const [open, setOpen] = useState(false); //set if contest is open
   const [isAdmin, setIsAdmin] = useState(false);
   const [validTill, setValidTill] = useState("");
-  const [submissionResults, setSubmissionResults] = useState([]); //Store Submission Results
+  const [submissionResults, setSubmissionResults] = useState({}); //Store Submission Results
   const [toggle, setToggle] = useState(false); //Question nav bar toggle
   const [currentQuestion, setCurrentQuestion] = useState({});
 
@@ -198,7 +198,6 @@ const ContestPage = ({ serverRoute }) => {
         // Fullscreen entered
       } else {
         // Fullscreen exited or tab switching
-        console.log(chance);
         if (chance) {
           setPopup({
             state: true,
@@ -274,9 +273,11 @@ const ContestPage = ({ serverRoute }) => {
         newScoreMap[question.questionId] = -1;
       });
       // Iterate over submissionResults and update the scoreMap
-      submissionResults.forEach((submission) => {
-        newScoreMap[submission.questionId] = submission.score;
-      });
+      if (submissionResults) {
+        Object.keys(submissionResults).forEach((submission) => {
+          newScoreMap[submission] = submissionResults[submission];
+        });
+      }
 
       // Set the updated score map
       setScoreMap(newScoreMap);
@@ -364,15 +365,18 @@ const ContestPage = ({ serverRoute }) => {
             onAttempt={handleAttempt}
             password={contestPassword}
             open={open}
+            contestId={contestId}
           />
         ) : (
           <div className="contest-main">
             {Object.keys(scoreMap).length > 0 && (
               <SideMenu
-                questions={scoreMap}
+                contents={scoreMap}
                 onSelect={handleSelect}
                 toggle={toggle}
-                currentQuestion={currentQuestion.questionId}
+                currentItem={currentQuestion.questionId}
+                progress={false}
+                color={"rgb(150, 251, 74)"}
               />
             )}
             <div className="contest-head">
@@ -393,7 +397,11 @@ const ContestPage = ({ serverRoute }) => {
               </div>
               <div className="right">
                 <div className="name">{username.toUpperCase()}</div>
-                <button type="button" className="contest-btn">
+                <button
+                  type="button"
+                  className="contest-btn"
+                  onClick={endContest}
+                >
                   <span className="material-icons">close</span>
                 </button>
               </div>

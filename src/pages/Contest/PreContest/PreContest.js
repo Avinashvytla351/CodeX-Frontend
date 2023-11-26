@@ -4,7 +4,7 @@ import "./PreContest.css";
 import logo from "../../../images/try logo.png";
 import Popup from "../../../components/popUp/Popup";
 
-const PreContest = ({ password, onAttempt, open }) => {
+const PreContest = ({ password, onAttempt, open, contestId }) => {
   useEffect(() => {
     document.title = "Instructions | KLHCode";
   }, []);
@@ -61,6 +61,14 @@ const PreContest = ({ password, onAttempt, open }) => {
                 <button type="button" className="btn" onClick={checkPassword}>
                   Submit
                 </button>
+                <a
+                  href={`/leaderboard/${contestId}`}
+                  target="_blank"
+                  className="btn"
+                  style={{ background: "black" }}
+                >
+                  Leaderboard
+                </a>
               </form>
             ) : (
               <button type="button" className="btn" onClick={participateButton}>

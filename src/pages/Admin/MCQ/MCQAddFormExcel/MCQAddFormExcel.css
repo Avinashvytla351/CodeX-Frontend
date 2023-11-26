@@ -1,0 +1,7 @@
+.MCQQUESTIONFORMEXCEL {
+  width: 100%;
+}
+.ant-modal-content {
+  max-height: 400px;
+  overflow: auto;
+}

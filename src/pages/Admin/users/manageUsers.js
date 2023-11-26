@@ -296,6 +296,7 @@ const ManageUsers = ({ serverRoute, clientRoute }) => {
           serverRoute={serverRoute}
           clientRoute={clientRoute}
           heading={"Manage Users"}
+          defaultKey={"/admin/manageUsers"}
         >
           <Input.Search
             placeholder="Search users..."

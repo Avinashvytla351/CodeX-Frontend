@@ -1,0 +1,45 @@
+.NUMBERDISPLAY {
+  width: 30%;
+  min-width: 300px;
+  height: 100%;
+  position: relative;
+  margin: 0;
+  box-sizing: border-box;
+  padding: 20px;
+  overflow: auto;
+  background: rgb(48, 50, 53);
+  border: 0.3mm solid rgb(64, 66, 71);
+}
+.NUMBERDISPLAY .numbers {
+  width: 100%;
+  height: fit-content;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+}
+.NUMBERDISPLAY .numbers .number {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: rgb(27, 30, 33);
+  border: 0.5mm solid rgb(64, 66, 71);
+  margin: 5px;
+  font-size: 14px;
+  color: white;
+  font-family: poppins;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: 500;
+}
+.NUMBERDISPLAY .numbers .number:hover {
+  color: black;
+  background: white;
+}
+.NUMBERDISPLAY .numbers .number.active {
+  background: rgb(22, 119, 255);
+  box-shadow: 0 0 10px 5px rgb(22, 119, 255);
+  border: 0.5mm solid transparent;
+  color: white;
+}

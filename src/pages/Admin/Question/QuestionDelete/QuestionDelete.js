@@ -83,6 +83,7 @@ const QuestionDelete = ({ serverRoute, clientRoute }) => {
         serverRoute={serverRoute}
         clientRoute={clientRoute}
         heading={"Delete Question"}
+        defaultKey={"/admin/delete/question"}
       >
         <QuestionFetch
           serverRoute={serverRoute}

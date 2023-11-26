@@ -218,6 +218,7 @@ const QuestionsView = ({ serverRoute, clientRoute }) => {
           serverRoute={serverRoute}
           clientRoute={clientRoute}
           heading={"View Questions"}
+          defaultKey={"/admin/view/question"}
         >
           {questions.length && (
             <Table

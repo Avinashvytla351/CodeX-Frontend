@@ -1,0 +1,33 @@
+.CHALLENGES {
+  width: 100vw;
+  height: fit-content;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+.CHALLENGES .contests {
+  width: 100%;
+  height: fit-content;
+  position: relative;
+}
+.CHALLENGES .contests-container {
+  width: 100%;
+  height: fit-content;
+}
+.CHALLENGES .contests-title {
+  width: 85%;
+  display: block;
+  margin: auto;
+  font-size: 2rem;
+  font-family: poppins;
+  font-weight: 500;
+}
+.CHALLENGES .row {
+  margin: auto;
+  width: 98%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  padding: 0;
+}
