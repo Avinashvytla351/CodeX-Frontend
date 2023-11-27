@@ -102,9 +102,38 @@ const ContestLeaderboard = ({ serverRoute }) => {
 
     setCoulmns(columns);
     let data = [];
-    if (leaderboard[0].mcqSubjects) {
-      leaderboard.forEach((item, index) => {
-        if (index > 0) {
+    if (leaderboard[0]) {
+      if (leaderboard[0].mcqSubjects) {
+        leaderboard.forEach((item, index) => {
+          if (index > 0) {
+            let newData = {
+              key: index,
+              rank: index + 1,
+              username: item.username,
+            };
+
+            let total = 0;
+
+            //Initialising all the subject names in the newData
+            leaderboard[0].mcqSubjects.forEach((subject) => {
+              newData[subject.toLowerCase()] = 0;
+            });
+
+            Object.keys(item.mcqSubjectScore).forEach((subjectKey) => {
+              newData[subjectKey.toLowerCase()] =
+                item.mcqSubjectScore[subjectKey];
+
+              if (Number(item.mcqSubjectScore[subjectKey])) {
+                total = total + Number(item.mcqSubjectScore[subjectKey]);
+              }
+            });
+
+            newData["score"] = total;
+            data.push(newData);
+          }
+        });
+      } else {
+        leaderboard.forEach((item, index) => {
           let newData = {
             key: index,
             rank: index + 1,
@@ -112,50 +141,23 @@ const ContestLeaderboard = ({ serverRoute }) => {
           };
 
           let total = 0;
+          Object.keys(leaderboard[0]).forEach((key) => {
+            if (key.toUpperCase() != "USERNAME") {
+              newData[key.toLowerCase()] = item[key];
 
-          //Initialising all the subject names in the newData
-          leaderboard[0].mcqSubjects.forEach((subject) => {
-            newData[subject.toLowerCase()] = 0;
-          });
-
-          Object.keys(item.mcqSubjectScore).forEach((subjectKey) => {
-            newData[subjectKey.toLowerCase()] =
-              item.mcqSubjectScore[subjectKey];
-
-            if (Number(item.mcqSubjectScore[subjectKey])) {
-              total = total + Number(item.mcqSubjectScore[subjectKey]);
+              try {
+                if (Number(item[key])) {
+                  total = total + Number(item[key]);
+                }
+              } catch (err) {
+                total = total + 0;
+              }
             }
           });
-
           newData["score"] = total;
           data.push(newData);
-        }
-      });
-    } else {
-      leaderboard.forEach((item, index) => {
-        let newData = {
-          key: index,
-          rank: index + 1,
-          username: item.username,
-        };
-
-        let total = 0;
-        Object.keys(leaderboard[0]).forEach((key) => {
-          if (key.toUpperCase() != "USERNAME") {
-            newData[key.toLowerCase()] = item[key];
-
-            try {
-              if (Number(item[key])) {
-                total = total + Number(item[key]);
-              }
-            } catch (err) {
-              total = total + 0;
-            }
-          }
         });
-        newData["score"] = total;
-        data.push(newData);
-      });
+      }
     }
     setData(data);
   }, [leaderboard]);
