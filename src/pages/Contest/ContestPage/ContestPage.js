@@ -412,7 +412,7 @@ const ContestPage = ({ serverRoute }) => {
                   <QuestionDesc question={currentQuestion} />
                 </React.Suspense>
               ) : (
-                <div>No Questions Available</div>
+                <div className="contest-message">No Questions Available</div>
               )}
               {questions.length > 0 ? (
                 <React.Suspense fallback="">
@@ -425,7 +425,7 @@ const ContestPage = ({ serverRoute }) => {
                   />
                 </React.Suspense>
               ) : (
-                <div>No Questions Available</div>
+                <div className="contest-message">No Questions Available</div>
               )}
             </div>
           </div>

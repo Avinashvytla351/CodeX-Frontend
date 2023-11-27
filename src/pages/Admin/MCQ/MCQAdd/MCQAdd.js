@@ -21,14 +21,13 @@ const MCQAdd = ({ serverRoute, clientRoute }) => {
   //Fetch Schema for MCQ Creation
   const fetchSchema = async () => {
     try {
-      const schemaResponse = await axios.get(serverRoute + "/tags", {
+      const schemaResponse = await axios.get(serverRoute + "/counters", {
         headers: {
           authorization: token, // Replace with the actual token source
         },
       });
-      console.log(schemaResponse.data);
       if (schemaResponse.data.success) {
-        setMcqSchema(schemaResponse.data.data.mcqSubjects);
+        setMcqSchema(schemaResponse.data.data.subjectCount);
       } else {
         navigate("/message", {
           state: { type: false, message: "Failed get the subjects and topics" },

@@ -111,7 +111,6 @@ const MCQAddForm = ({ defaultValues, schema, route }) => {
           }
         });
         postData[0]["options"] = options;
-        console.log(postData);
         try {
           var questionResponse = null;
           if (defaultValues) {
@@ -266,10 +265,10 @@ const MCQAddForm = ({ defaultValues, schema, route }) => {
             onRemove={handleRemove}
             customRequest={({ file, onSuccess, onError }) => {
               // Check file size
-              if (file.size > 1000000) {
+              if (file.size > 51000) {
                 // Show error and apply red border
-                message.error("Image size should be less than 1MB");
-                onError("Image size should be less than 1MB");
+                message.error("Image size should be less than 50KB");
+                onError("Image size should be less than 50KB");
                 return;
               }
 

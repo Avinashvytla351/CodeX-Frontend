@@ -93,7 +93,7 @@ const IDE = (props) => {
 
   var abortController = new AbortController();
 
-  const handleRunClick = async () => {
+  const handleRunClick = async (event) => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
@@ -116,8 +116,15 @@ const IDE = (props) => {
       ...codeData,
       isRun: true,
     });
+    let base64Code = btoa(codeData.sourceCode);
     let newCodeData = { ...codeData, isRun: true };
-
+    newCodeData.sourceCode = base64Code;
+    newCodeData.questionId = props.questionId;
+    let btn = event.target;
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.disabled = false;
+    }, 10000);
     try {
       const response = await axios.post(
         `${props.serverRoute}/validateSubmission`,
@@ -147,17 +154,23 @@ const IDE = (props) => {
       } else {
         tempStatus = "Failed due invalid code or Internal Error";
       }
-
+      let messageData = "";
+      if (response.data.data.stdout) {
+        messageData = atob(response.data.data.stdout);
+      } else if (response.data.data.stderr) {
+        messageData = atob(response.data.data.stderr);
+      } else if (response.data.data.compile_output) {
+        messageData = atob(response.data.data.compile_output);
+      }
       setStdout({
         statusVal: tempStatus,
         memory: response.data.data.memory,
         time: response.data.data.time,
-        outputVal: response.data.data.stdout || response.data.data.stderr,
+        outputVal: messageData,
         score: 0,
         run: true,
       });
     } catch (error) {
-      console.log(error);
       // Check if the request was aborted
       setStdout({
         statusVal: "Failed to Fetch the result",
@@ -173,7 +186,7 @@ const IDE = (props) => {
     }
   };
 
-  const handleSubmitClick = async () => {
+  const handleSubmitClick = async (event) => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
@@ -196,7 +209,12 @@ const IDE = (props) => {
     });
 
     let newCodeData = { ...codeData, isRun: false };
-
+    let btn = event.target;
+    btn.disabled = true;
+    newCodeData.questionId = props.questionId;
+    setTimeout(() => {
+      btn.disabled = false;
+    }, 10000);
     try {
       // Send a POST request to the "validateSubmission" endpoint with the new AbortController
       const response = await axios.post(
@@ -290,7 +308,11 @@ const IDE = (props) => {
                 fontSize: selectedSize,
                 contextmenu: props.admin ? true : false,
               }}
-              value={defaultCodeSnippets[selectedLanguage]}
+              value={
+                codeData.sourceCode
+                  ? codeData.sourceCode
+                  : defaultCodeSnippets[selectedLanguage]
+              }
               theme="vs-dark"
               onChange={handleEditorChange}
               onMount={(editor) => {

@@ -44,7 +44,7 @@ const MCQContestPage = ({ serverRoute }) => {
   };
 
   useEffect(() => {
-    document.title = "Contest | KLHCode";
+    document.title = "Challenge | KLHCode";
   }, [started]);
 
   //Check if contest is on going or not and fetch the contest password
@@ -159,7 +159,37 @@ const MCQContestPage = ({ serverRoute }) => {
   };
 
   //End Contest
+  const sendResult = async () => {
+    let responses = [];
+    Object.keys(contents).forEach((item) => {
+      contents[item].questions.forEach((question) => {
+        responses.push({
+          questionId: question.questionId,
+          response: question.selected ? question.selected.toString() : null,
+        });
+      });
+    });
+    let submissionResponse = {
+      contestId: contestId,
+      username: username,
+      responses: responses,
+    };
+    try {
+      const submitResponse = await axios.post(
+        serverRoute + "/validateMCQSubmission",
+        submissionResponse,
+        {
+          headers: {
+            authorization: token, // Replace with the actual token source
+          },
+        }
+      );
+
+      console.log(submitResponse.data);
+    } catch (error) {}
+  };
   const endContest = async () => {
+    sendResult();
     if (!isAdmin) {
       try {
         const endResponse = await axios.post(
@@ -305,6 +335,7 @@ const MCQContestPage = ({ serverRoute }) => {
       setToggle(false);
     } else if (event.type === "select") {
       setCurrentSection(event.id);
+      setCurrentQuestion(0);
     }
   };
   const handleToggle = () => {

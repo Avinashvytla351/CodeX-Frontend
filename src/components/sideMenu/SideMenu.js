@@ -57,10 +57,14 @@ const SideMenu = ({
               key={contentKey}
               onClick={() => handleSelect(contentKey)}
             >
-              <div className="questionId">
-                {contentKey.slice(0, 1).toUpperCase() +
-                  contentKey.slice(1, contentKey.length).toLowerCase()}
-              </div>
+              {progress ? (
+                <div className="questionId">
+                  {contentKey.slice(0, 1).toUpperCase() +
+                    contentKey.slice(1, contentKey.length).toLowerCase()}
+                </div>
+              ) : (
+                <div className="questionId">{contentKey.toUpperCase()}</div>
+              )}
               {progress ? (
                 <Progress
                   type="circle"

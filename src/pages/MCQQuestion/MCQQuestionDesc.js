@@ -4,7 +4,9 @@ import StringToHTML from "../../components/stringToHTML/StringToHTML";
 import { Image } from "antd";
 
 const MCQQuestionDesc = ({ question, onResponse, onNavigate }) => {
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(
+    question.selected ? question.selected : null
+  );
 
   const handleOption = (option) => {
     setSelectedOption(option);
@@ -13,8 +15,28 @@ const MCQQuestionDesc = ({ question, onResponse, onNavigate }) => {
 
   useEffect(() => {
     // Reset selected option when a new question is received
-    setSelectedOption(null);
+    setSelectedOption(question.selected ? question.selected : null);
   }, [question]);
+
+  const [imageurl, setImageUrl] = useState(question.mcqImage);
+
+  useEffect(() => {
+    // modify imageUrl when question changes
+    let image = question.mcqImage;
+    let imageUrl = "";
+    try {
+      if (image.slice(0, 20).includes("drive")) {
+        const fileId = image.split("/")[5];
+        imageUrl = `https://drive.google.com/uc?id=${fileId}`;
+      } else if (image.slice(0, 20).includes("data")) {
+        imageUrl = image;
+      }
+    } catch (error) {
+      imageUrl = "";
+    }
+
+    setImageUrl(imageUrl);
+  }, [question.mcqImage]);
   return (
     <div className="MCQQUESTIONDESC">
       {question ? (
@@ -22,6 +44,13 @@ const MCQQuestionDesc = ({ question, onResponse, onNavigate }) => {
           <div className="title">
             <h2></h2>
             <div className="title-details">
+              <span
+                className="difficulty"
+                style={{ color: "rgb(230, 225, 233)" }}
+              >
+                {question.questionId.toUpperCase() + " |"}
+                &nbsp;
+              </span>
               <span
                 className="difficulty"
                 style={{ color: "rgb(230, 225, 233)" }}
@@ -62,12 +91,17 @@ const MCQQuestionDesc = ({ question, onResponse, onNavigate }) => {
           <div className="desc">
             <StringToHTML htmlString={question.questionDescriptionText} />
           </div>
-          <div className="img">
-            <Image
-              height={250}
-              src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-            />
-          </div>
+          {question.mcqImage && (
+            <div className="img">
+              <Image
+                height={250}
+                src={imageurl}
+                placeholder={
+                  <Image preview={false} src={imageurl} width={200} />
+                }
+              />
+            </div>
+          )}
           <div className="options">
             {question.options.map((option, index) => (
               <span className="option-wrap" key={index}>

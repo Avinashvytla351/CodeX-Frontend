@@ -34,7 +34,7 @@ const QuestionsView = React.lazy(() =>
 );
 const ManageUsers = React.lazy(() => import("./pages/Admin/users/manageUsers"));
 const ContestLeaderboard = React.lazy(() =>
-  import("./pages/Contest/ContestLeaderboard/ContestLeaderboard")
+  import("./pages/Leaderboards/ContestLeaderboard/ContestLeaderboard")
 );
 const MCQAdd = React.lazy(() => import("./pages/Admin/MCQ/MCQAdd/MCQAdd"));
 const MCQContestAdd = React.lazy(() =>

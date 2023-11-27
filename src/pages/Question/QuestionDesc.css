@@ -54,6 +54,11 @@
   margin: 0;
   white-space: pre-line;
 }
+.QUESTION .desc p,
+.QUESTION .desc h2,
+.QUESTION .desc h3 {
+  padding: 0;
+}
 .QUESTION .title-details .material-icons-round {
   color: rgb(82, 206, 111);
   font-size: 20px;
