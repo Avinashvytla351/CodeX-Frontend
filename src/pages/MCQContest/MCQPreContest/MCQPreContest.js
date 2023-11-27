@@ -61,20 +61,20 @@ const MCQPreContest = ({ password, onAttempt, open, contestId }) => {
                 <button type="button" className="btn" onClick={checkPassword}>
                   Submit
                 </button>
-                <a
-                  href={`/leaderboard/${contestId}`}
-                  target="_blank"
-                  className="btn"
-                  style={{ background: "black" }}
-                >
-                  Leaderboard
-                </a>
               </form>
             ) : (
               <button type="button" className="btn" onClick={participateButton}>
                 Participate
               </button>
             )}
+            <a
+              href={`/leaderboard/${contestId}`}
+              target="_blank"
+              className="btn"
+              style={{ background: "black" }}
+            >
+              Leaderboard
+            </a>
           </div>
           <div className="instructions">
             <div className="inst-title">INsTRUcTIoNs</div>
