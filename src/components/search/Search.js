@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import "./Search.css";
 
-function Search({ onSearch }) {
+function Search({ onSearch, placeholder }) {
   const [search, setSearch] = useState("");
 
   const handleSearchChange = (e) => {
@@ -17,7 +17,7 @@ function Search({ onSearch }) {
         type="search"
         name=""
         id="search"
-        placeholder="Search Contests"
+        placeholder={placeholder ? placeholder : "Search Contests"}
         value={search}
         onChange={handleSearchChange}
         autoComplete="off"

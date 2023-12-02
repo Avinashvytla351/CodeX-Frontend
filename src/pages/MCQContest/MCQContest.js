@@ -82,7 +82,7 @@ const MCQContest = (data) => {
             search={true}
             color={"rgb(26, 115, 232)"}
           >
-            <Search onSearch={handleSearch} />
+            <Search onSearch={handleSearch} placeholder={"Search Challenges"} />
           </AreaRight>
           <AreaLeft image={CodeImage} />
         </FlexLayoutEven>
@@ -90,7 +90,7 @@ const MCQContest = (data) => {
           <section className="contests">
             <Doodle background={"rgb(99, 236, 152)"} />
             <div className="contests-container">
-              <div className="contests-title">Active Contests</div>
+              <div className="contests-title">Active Challenges</div>
               <div className="row">
                 {activeContests
                   .filter((item) => {
@@ -116,7 +116,7 @@ const MCQContest = (data) => {
               </div>
             </div>
             <div className="contests-container">
-              <div className="contests-title">Inactive Contests</div>
+              <div className="contests-title">Inactive Challenges</div>
               <div className="row">
                 {inactiveContests
                   .filter((item) => {

@@ -154,7 +154,7 @@ const TypeContestAdd = ({ questions, route, manual, defaultValues }) => {
   const options = [];
   questions.forEach((question) => {
     options.push({
-      label: question.questionId,
+      label: question.questionId + " - " + question.questionName,
       value: question.questionId,
     });
   });

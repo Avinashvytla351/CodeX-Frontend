@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import SideMenu from "../../../components/sideMenu/SideMenu";
 import Popup from "../../../components/popUp/Popup";
 import Loading from "../../../components/loading/Loading";
+import ContestResult from "../ContestResult/ContestResult";
 const QuestionDesc = React.lazy(() => import("../../Question/QuestionDesc"));
 const IDE = React.lazy(() => import("../../IDE/IDE"));
 
@@ -28,6 +29,7 @@ const ContestPage = ({ serverRoute }) => {
   const [submissionResults, setSubmissionResults] = useState({}); //Store Submission Results
   const [toggle, setToggle] = useState(false); //Question nav bar toggle
   const [currentQuestion, setCurrentQuestion] = useState({});
+  const [ended, setEnded] = useState(false); //Ended flag for contest result
 
   //Question Scores Map
   const [scoreMap, setScoreMap] = useState({});
@@ -83,7 +85,8 @@ const ContestPage = ({ serverRoute }) => {
         setOpen(true);
         setLoading(false);
       } else {
-        navigate(`/leaderboard/${contestId}`);
+        setEnded(true);
+        setLoading(false);
       }
     } catch (error) {
       setLoading(false);
@@ -160,9 +163,9 @@ const ContestPage = ({ serverRoute }) => {
             },
           }
         );
-        navigate(`/leaderboard/${contestId}`);
+        setEnded(true);
       } catch (error) {
-        navigate(`/leaderboard/${contestId}`);
+        setEnded(true);
       }
     }
   };
@@ -360,75 +363,79 @@ const ContestPage = ({ serverRoute }) => {
         />
       )}
       {!loading ? (
-        !started ? (
-          <PreContest
-            onAttempt={handleAttempt}
-            password={contestPassword}
-            open={open}
-            contestId={contestId}
-          />
-        ) : (
-          <div className="contest-main">
-            {Object.keys(scoreMap).length > 0 && (
-              <SideMenu
-                contents={scoreMap}
-                onSelect={handleSelect}
-                toggle={toggle}
-                currentItem={currentQuestion.questionId}
-                progress={false}
-                color={"rgb(150, 251, 74)"}
-              />
-            )}
-            <div className="contest-head">
-              <div className="left">
-                <button
-                  type="button"
-                  className="contest-btn"
-                  onClick={handleToggle}
-                >
-                  <span className="material-icons">menu</span>
-                </button>
-                <div className="contest-title">{contestId.toUpperCase()}</div>
+        !ended ? (
+          !started ? (
+            <PreContest
+              onAttempt={handleAttempt}
+              password={contestPassword}
+              open={open}
+              contestId={contestId}
+            />
+          ) : (
+            <div className="contest-main">
+              {Object.keys(scoreMap).length > 0 && (
+                <SideMenu
+                  contents={scoreMap}
+                  onSelect={handleSelect}
+                  toggle={toggle}
+                  currentItem={currentQuestion.questionId}
+                  progress={false}
+                  color={"rgb(150, 251, 74)"}
+                />
+              )}
+              <div className="contest-head">
+                <div className="left">
+                  <button
+                    type="button"
+                    className="contest-btn"
+                    onClick={handleToggle}
+                  >
+                    <span className="material-icons">menu</span>
+                  </button>
+                  <div className="contest-title">{contestId.toUpperCase()}</div>
+                </div>
+                <div className="center">
+                  {validTill && (
+                    <Timer countDownDate={validTill} onTimeUp={handleTimeUp} />
+                  )}
+                </div>
+                <div className="right">
+                  <div className="name">{username.toUpperCase()}</div>
+                  <button
+                    type="button"
+                    className="contest-btn"
+                    onClick={endContest}
+                  >
+                    <span className="material-icons">close</span>
+                  </button>
+                </div>
               </div>
-              <div className="center">
-                {validTill && (
-                  <Timer countDownDate={validTill} onTimeUp={handleTimeUp} />
+              <div className="contest-question">
+                {questions.length > 0 ? (
+                  <React.Suspense fallback="">
+                    <QuestionDesc question={currentQuestion} />
+                  </React.Suspense>
+                ) : (
+                  <div className="contest-message">No Questions Available</div>
+                )}
+                {questions.length > 0 ? (
+                  <React.Suspense fallback="">
+                    <IDE
+                      contestId={contestId}
+                      questionId={currentQuestion.questionId}
+                      serverRoute={serverRoute}
+                      onScoreChange={handleScoreChange}
+                      admin={isAdmin}
+                    />
+                  </React.Suspense>
+                ) : (
+                  <div className="contest-message">No Questions Available</div>
                 )}
               </div>
-              <div className="right">
-                <div className="name">{username.toUpperCase()}</div>
-                <button
-                  type="button"
-                  className="contest-btn"
-                  onClick={endContest}
-                >
-                  <span className="material-icons">close</span>
-                </button>
-              </div>
             </div>
-            <div className="contest-question">
-              {questions.length > 0 ? (
-                <React.Suspense fallback="">
-                  <QuestionDesc question={currentQuestion} />
-                </React.Suspense>
-              ) : (
-                <div className="contest-message">No Questions Available</div>
-              )}
-              {questions.length > 0 ? (
-                <React.Suspense fallback="">
-                  <IDE
-                    contestId={contestId}
-                    questionId={currentQuestion.questionId}
-                    serverRoute={serverRoute}
-                    onScoreChange={handleScoreChange}
-                    admin={isAdmin}
-                  />
-                </React.Suspense>
-              ) : (
-                <div className="contest-message">No Questions Available</div>
-              )}
-            </div>
-          </div>
+          )
+        ) : (
+          <ContestResult contestId={contestId} serverRoute={serverRoute} />
         )
       ) : (
         <Loading />
