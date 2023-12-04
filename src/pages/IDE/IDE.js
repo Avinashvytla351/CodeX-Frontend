@@ -320,6 +320,7 @@ const IDE = (props) => {
                 editor.onKeyDown((event) => {
                   const { keyCode, ctrlKey, metaKey } = event;
                   if (
+                    !props.admin &&
                     (keyCode === 33 || keyCode === 52) &&
                     (metaKey || ctrlKey)
                   ) {

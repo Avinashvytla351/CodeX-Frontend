@@ -254,7 +254,7 @@ const QuestionAddForm = ({ topics, companies, route, defaultValues }) => {
             label="Example Input 2"
             rules={[
               {
-                required: true,
+                required: false,
               },
             ]}
             className="small"
@@ -267,7 +267,7 @@ const QuestionAddForm = ({ topics, companies, route, defaultValues }) => {
             label="Example Output 2"
             rules={[
               {
-                required: true,
+                required: false,
               },
             ]}
             className="small"
@@ -282,7 +282,7 @@ const QuestionAddForm = ({ topics, companies, route, defaultValues }) => {
             label="Example Input 3"
             rules={[
               {
-                required: true,
+                required: false,
               },
             ]}
             className="small"
@@ -295,7 +295,7 @@ const QuestionAddForm = ({ topics, companies, route, defaultValues }) => {
             label="Example Output 3"
             rules={[
               {
-                required: true,
+                required: false,
               },
             ]}
             className="small"

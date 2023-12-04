@@ -158,6 +158,11 @@ const QuestionDesc = ({ question, solved }) => {
             </div>
           )}
 
+          {question.questionExplanation && <h3>Explaination</h3>}
+          {question.questionExplanation && (
+            <p>{question.questionExplanation}</p>
+          )}
+
           <input type="checkbox" name="" id="accord1" />
           {question && question.topic && (
             <label htmlFor="accord1" className="accordian">
