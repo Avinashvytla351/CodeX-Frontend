@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as a base image
-FROM node:18.17.0
+FROM node:alpine
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -15,10 +15,10 @@ COPY package.json ./
 COPY package-lock.json ./
 
 # Install app dependencies
-RUN npm install --silent
+RUN npm install
 
 # Install react-scripts globally
-RUN npm install react-scripts@5.0.1 -g --silent
+RUN npm install react-scripts@5.0.1 -g 
 
 # Copy the entire application code to the working directory
 COPY . ./

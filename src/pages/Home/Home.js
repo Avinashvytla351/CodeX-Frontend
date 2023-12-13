@@ -29,7 +29,7 @@ const Home = () => {
             </div>
             <div className="content">
               <div className="small">Welcome To</div>
-              <div className="big">klhCODE</div>
+              <div className="big">klh</div>
             </div>
             <div className="rside">
               <span className="material-icons-round">data_object</span>
