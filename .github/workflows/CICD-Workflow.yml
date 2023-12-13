@@ -1,11 +1,4 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
 
-# GitHub recommends pinning actions to a commit SHA.
-# To get a newer version, you will need to update the SHA.
-# You can also reference a tag or branch, but the action may change without warning.
 
 name: Deploy to Amazon ECS
 
@@ -14,16 +7,12 @@ on:
     branches: [master]
 
 env:
-  AWS_REGION: MY_AWS_REGION # set this to your preferred AWS region, e.g. us-west-1
-  ECR_REPOSITORY: MY_ECR_REPOSITORY # set this to your Amazon ECR repository name
-  ECS_SERVICE: MY_ECS_SERVICE # set this to your Amazon ECS service name
-  ECS_CLUSTER: MY_ECS_CLUSTER # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION:
-    MY_ECS_TASK_DEFINITION # set this to the path to your Amazon ECS task definition
-    # file, e.g. .aws/task-definition.json
-  CONTAINER_NAME:
-    MY_CONTAINER_NAME # set this to the name of the container in the
-    # containerDefinitions section of your task definition
+  AWS_REGION: ap-south-1 # set this to your preferred AWS region, e.g. us-west-1
+  ECR_REPOSITORY: codex-client # set this to your Amazon ECR repository name
+  ECS_SERVICE: CodeX-Client-Service # set this to your Amazon ECS service name
+  ECS_CLUSTER: CodeX # set this to your Amazon ECS cluster name
+  ECS_TASK_DEFINITION: CodeX-Client-Task-Definition.json
+  CONTAINER_NAME: CodeX-Client
 
 jobs:
   deploy:
@@ -40,7 +29,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: ap-south-1
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -63,14 +52,14 @@ jobs:
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
         with:
-          task-definition: ${{ env.ECS_TASK_DEFINITION }}
-          container-name: ${{ env.CONTAINER_NAME }}
+          task-definition: CodeX-Client-Task-Definition.json
+          container-name: CodeX-Client
           image: ${{ steps.build-image.outputs.image }}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: ${{ env.ECS_SERVICE }}
-          cluster: ${{ env.ECS_CLUSTER }}
+          service: CodeX-Client-Service
+          cluster: CodeX
           wait-for-service-stability: true
