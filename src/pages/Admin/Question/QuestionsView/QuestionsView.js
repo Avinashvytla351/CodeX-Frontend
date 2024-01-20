@@ -188,7 +188,6 @@ const QuestionsView = ({ serverRoute, clientRoute }) => {
         });
       }
     } catch (error) {
-      console.log(error);
       setPopup({
         state: true,
         type: false,

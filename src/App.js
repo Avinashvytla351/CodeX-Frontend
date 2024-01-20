@@ -44,6 +44,9 @@ const MCQContest = React.lazy(() => import("./pages/MCQContest/MCQContest"));
 const MCQContestPage = React.lazy(() =>
   import("./pages/MCQContest/MCQContestPage/MCQContestPage")
 );
+const SubjectsChapters = React.lazy(() =>
+  import("./pages/Admin/Subjects & Chapters/SubjectsChapters")
+);
 
 const serverRoute = "http://localhost:5000";
 const clientRoute = "http://localhost:4000";
@@ -235,6 +238,18 @@ function App() {
           element={
             <React.Suspense fallback="">
               <MCQContestAdd
+                serverRoute={serverRoute}
+                clientRoute={clientRoute}
+              />
+            </React.Suspense>
+          }
+        />
+
+        <Route
+          path="/admin/add/Subjects"
+          element={
+            <React.Suspense fallback="">
+              <SubjectsChapters
                 serverRoute={serverRoute}
                 clientRoute={clientRoute}
               />
