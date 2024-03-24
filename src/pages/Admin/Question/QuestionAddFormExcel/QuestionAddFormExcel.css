@@ -1,12 +1,12 @@
-.QUESTIONFORM {
+.QUESTIONFORMEXCEL {
   width: 100%;
   height: fit-content;
   margin: 0;
   padding: 0;
   position: relative;
 }
-.QUESTIONFORM .ant-upload-wrapper,
-.QUESTIONFORM .ant-upload-list {
+.QUESTIONFORMEXCEL .ant-upload-wrapper,
+.QUESTIONFORMEXCEL .ant-upload-list {
   width: fit-content;
   max-width: 220px;
 }

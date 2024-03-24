@@ -6,6 +6,8 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../../../components/loading/Loading";
 import QuestionAddForm from "../QuestionAddForm/QuestionAddForm";
+import QuestionAddFormExcel from "../QuestionAddFormExcel/QuestionAddFormExcel";
+import { useQuery } from "@tanstack/react-query";
 
 const QuestionAdd = ({ serverRoute, clientRoute }) => {
   useEffect(() => {
@@ -16,39 +18,89 @@ const QuestionAdd = ({ serverRoute, clientRoute }) => {
   const [loading, setLoading] = useState(true);
   const [topics, setTopics] = useState([]);
   const [companies, setCompanies] = useState([]);
-  const fetchTags = async () => {
-    try {
-      const tagsResponse = await axios.get(serverRoute + "/tags", {
+  const [subjects, setSubjects] = useState([]);
+  const [chapters, setChapters] = useState([]);
+  const [errorMessage, setErrorMessage] = useState({
+    state: false,
+    message: "",
+  });
+  const [manual, setManual] = useState(true);
+
+  const tagsQuery = useQuery({
+    queryKey: ["tags"],
+    queryFn: () => {
+      return axios.get(serverRoute + "/tags", {
         headers: {
-          authorization: token, // Replace with the actual token source
+          authorization: token,
         },
       });
-      if (tagsResponse.data.success) {
-        setCompanies(tagsResponse.data.data.companyTags);
-        setTopics(tagsResponse.data.data.topicTags);
-      } else {
-        navigate("/message", {
-          state: { type: false, message: "Failed to fetch tags" },
-        });
-      }
-      setLoading(false);
-    } catch (error) {
-      let message = "Failed to fetch tags";
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        message = error.response.data.message;
-      }
-      navigate("/message", {
-        state: { type: false, message: message },
+    },
+  });
+
+  const subjectsQuery = useQuery({
+    queryKey: ["subjects"],
+    queryFn: () => {
+      return axios.get("https://659d3738633f9aee7908e9df.mockapi.io/subjects", {
+        headers: { "content-type": "application/json" },
       });
-    }
-  };
+    },
+  });
+
+  const chaptersQuery = useQuery({
+    queryKey: ["chapters"],
+    queryFn: () => {
+      return axios.get("https://659d3738633f9aee7908e9df.mockapi.io/chapters", {
+        headers: { "content-type": "application/json" },
+      });
+    },
+  });
+
   useEffect(() => {
-    fetchTags();
-  }, []);
+    if (tagsQuery.isError && !errorMessage.state) {
+      setErrorMessage({ state: true, message: "Unable to fetch tags" });
+    } else if (subjectsQuery.isError && !errorMessage.state) {
+      setErrorMessage({ state: true, message: "Unable to fetch subjects" });
+    } else if (chaptersQuery.isError && !errorMessage.state) {
+      setErrorMessage({ state: true, message: "Unable to fetch chapters" });
+    } else if (
+      !tagsQuery.isFetching &&
+      !subjectsQuery.isFetching &&
+      !chaptersQuery.isFetching
+    ) {
+      setLoading(false);
+    }
+
+    if (tagsQuery.isSuccess) {
+      if (tagsQuery.data.data && tagsQuery.data.data.success) {
+        setCompanies(tagsQuery.data.data.data.companyTags);
+        setTopics(tagsQuery.data.data.data.topicTags);
+      }
+    }
+
+    if (subjectsQuery.isSuccess) {
+      if (subjectsQuery.data.data) {
+        setSubjects(subjectsQuery.data.data);
+      }
+    }
+
+    if (chaptersQuery.isSuccess) {
+      if (chaptersQuery.data.data) {
+        setChapters(chaptersQuery.data.data);
+      }
+    }
+  }, [
+    tagsQuery.isError,
+    subjectsQuery.isError,
+    chaptersQuery.isError,
+    tagsQuery.isFetching,
+    subjectsQuery.isFetching,
+    chaptersQuery.isFetching,
+    tagsQuery.isSuccess,
+    subjectsQuery.isSuccess,
+    chaptersQuery.isSuccess,
+    errorMessage.state,
+  ]);
+
   return (
     <div className="ADMINQUESTIONADD">
       {!loading ? (
@@ -59,11 +111,44 @@ const QuestionAdd = ({ serverRoute, clientRoute }) => {
           defaultKey={"/admin/add/question"}
         >
           <div className="admin-main">
-            <QuestionAddForm
-              topics={topics}
-              companies={companies}
-              route={serverRoute + "/question"}
-            />
+            <div className="admin-main-header">
+              <div
+                className="main-buttons"
+                style={{ "--left": manual ? "50px" : "calc(100% - 210px)" }}
+              >
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => setManual(true)}
+                >
+                  Add Manually
+                </button>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => setManual(false)}
+                >
+                  Upload Excel
+                </button>
+              </div>
+            </div>
+            {manual ? (
+              <QuestionAddForm
+                topics={topics}
+                companies={companies}
+                subjects={subjects}
+                chapters={chapters}
+                route={serverRoute + "/question"}
+              />
+            ) : (
+              <QuestionAddFormExcel
+                topics={topics}
+                companies={companies}
+                subjects={subjects}
+                chapters={chapters}
+                route={serverRoute + "/question"}
+              />
+            )}
           </div>
         </AdminLayout>
       ) : (

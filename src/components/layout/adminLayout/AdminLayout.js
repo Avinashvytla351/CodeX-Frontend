@@ -10,6 +10,7 @@ import {
   LogoutOutlined,
   ExperimentOutlined,
   CheckSquareOutlined,
+  GroupOutlined,
 } from "@ant-design/icons";
 
 import "./AdminLayout.css";
@@ -26,6 +27,12 @@ const AdminMenu = ({ defaultKey }) => {
       key: "/",
       type: "main",
       icon: <HomeOutlined />,
+    },
+    {
+      label: "Subjects & Chapters",
+      key: "/admin/edit/subjectsChapters",
+      type: "main",
+      icon: <GroupOutlined />,
     },
     {
       label: "Manage Contests",

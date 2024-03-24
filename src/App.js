@@ -246,7 +246,7 @@ function App() {
         />
 
         <Route
-          path="/admin/add/Subjects"
+          path="/admin/edit/subjectsChapters"
           element={
             <React.Suspense fallback="">
               <SubjectsChapters

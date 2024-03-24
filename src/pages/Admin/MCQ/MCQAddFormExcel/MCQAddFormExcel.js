@@ -495,7 +495,7 @@ const MCQAddFormExcel = ({ route, schema }) => {
           alignItems: "flex-end",
         }}
       >
-        <h4>Excel Columns</h4>
+        <h4 style={{ marginLeft: "10px" }}>Excel Columns</h4>
         <a
           href="../../../../../public/MCQQuestionsTemplate.csv"
           download="MCQQuestionsTemplate.csv"
