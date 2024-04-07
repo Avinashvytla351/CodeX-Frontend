@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Message from "./components/message/Message";
 import Verify from "./pages/Auth/Verify/Verify";
+import SubjectsChapterTags from "./pages/Admin/Subjects & Chapters/SubjectsChapterTags";
 const Contest = React.lazy(() => import("./pages/Contest/Contest"));
 const Login = React.lazy(() => import("./pages/Auth/Login/Login"));
 const ContestPage = React.lazy(() =>
@@ -46,6 +47,9 @@ const MCQContestPage = React.lazy(() =>
 );
 const SubjectsChapters = React.lazy(() =>
   import("./pages/Admin/Subjects & Chapters/SubjectsChapters")
+);
+const SubjectChapterTags = React.lazy(() =>
+  import("./pages/Admin/Subjects & Chapters/SubjectsChapterTags")
 );
 
 const serverRoute = "http://localhost:5000";
@@ -250,6 +254,18 @@ function App() {
           element={
             <React.Suspense fallback="">
               <SubjectsChapters
+                serverRoute={serverRoute}
+                clientRoute={clientRoute}
+              />
+            </React.Suspense>
+          }
+        />
+
+        <Route
+          path="/admin/edit/subjectChapterTags"
+          element={
+            <React.Suspense fallback="">
+              <SubjectsChapterTags
                 serverRoute={serverRoute}
                 clientRoute={clientRoute}
               />

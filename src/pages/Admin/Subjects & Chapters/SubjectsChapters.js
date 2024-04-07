@@ -544,7 +544,7 @@ const ChapterForm = ({
       values.Subject_Id = values.Subject_Name;
       if (subjectOptions.length) {
         subjectOptions.forEach((option) => {
-          if (option.value == values.Subject_Id) {
+          if (option.value === values.Subject_Id) {
             values.Subject_Name = option.label;
             return;
           }
