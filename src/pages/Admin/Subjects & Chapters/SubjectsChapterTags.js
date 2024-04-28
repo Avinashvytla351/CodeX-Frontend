@@ -61,7 +61,6 @@ const SubjectsTagsTable = ({
   }
 
   if (subjectTagsQuery.isSuccess) {
-    console.log(subjectTagsQuery.data);
     const columns = [
       {
         title: "S.No.",
@@ -81,10 +80,6 @@ const SubjectsTagsTable = ({
         title: "Subject Tag Id",
         dataIndex: "subjectTagId",
         key: "subjectTagId",
-        sorter: (a, b) =>
-          a.subjectTagId
-            .toLowerCase()
-            .localeCompare(b.subjectTagId.toLowerCase()),
       },
       {
         title: "Action",
@@ -132,7 +127,7 @@ const SubjectsTagsTable = ({
 
         if (deleteResponse.data) {
           console.log(deleteResponse.data);
-          openMessage("success", "Subject Deleted");
+          openMessage("success", "Subject Tag Deleted");
           subjectTagsQuery.refetch();
         } else {
           openMessage("error", "Deletion Failed");
@@ -160,6 +155,148 @@ const SubjectsTagsTable = ({
           <Table
             columns={columns}
             dataSource={subjectTagsQuery.data.data.data}
+          />
+        ) : (
+          <Empty />
+        )}
+      </div>
+    );
+  }
+};
+
+const ChaptersTagsTable = ({
+  token,
+  serverRoute,
+  refetch,
+  onRefetch,
+  onEdit,
+}) => {
+  const [messageApi, contextHolder] = message.useMessage();
+  const key = "updatable";
+  const chapterTagsQuery = useQuery({
+    queryKey: ["chapterTags"],
+    queryFn: () => {
+      return axios.get(`${serverRoute}/chapterTags`, {
+        headers: {
+          authorization: token, // Replace with the actual token source
+        },
+      });
+    },
+  });
+
+  useEffect(() => {
+    if (refetch) {
+      chapterTagsQuery.refetch();
+      onRefetch(true);
+    }
+  }, [refetch, onRefetch, chapterTagsQuery]);
+
+  if (chapterTagsQuery.isLoading) {
+    return <Skeleton active />;
+  }
+  if (chapterTagsQuery.isError) {
+    return (
+      <div className="CHAPTERSTAGSTABLE">
+        {message.error("Failed to fetch chapter tags")}
+        <Empty />
+      </div>
+    );
+  }
+
+  if (chapterTagsQuery.isSuccess) {
+    const columns = [
+      {
+        title: "S.No.",
+        dataIndex: "key",
+        key: "key",
+      },
+      {
+        title: "Chapter Tag Name",
+        dataIndex: "chapterTagName",
+        key: "chapterTagName",
+        sorter: (a, b) =>
+          a.chapterTagName
+            .toLowerCase()
+            .localeCompare(b.chapterTagName.toLowerCase()),
+      },
+      {
+        title: "Chapter Tag Id",
+        dataIndex: "chapterTagId",
+        key: "chapterTagId",
+      },
+      {
+        title: "Action",
+        key: "action",
+        render: (_, record) =>
+          chapterTagsQuery.data.data.data.length > 0 ? (
+            <Space size="middle">
+              <a onClick={() => handleChapterTagEdit(record)}>Edit</a>
+              <Popconfirm
+                title="Sure to delete?"
+                onConfirm={() =>
+                  handleChapterTagDelete(record.chapterTagId, record.key)
+                }
+              >
+                <a>Delete</a>
+              </Popconfirm>
+            </Space>
+          ) : null,
+      },
+    ];
+
+    const openMessage = (type, content) => {
+      messageApi.open({
+        key,
+        type: type,
+        content: content,
+        duration: 2,
+      });
+    };
+
+    const handleChapterTagEdit = (record) => {
+      onEdit(record);
+    };
+
+    const handleChapterTagDelete = async (chapterTagId, key) => {
+      try {
+        const deleteResponse = await axios.delete(
+          `${serverRoute}/chapterTag/${chapterTagId}`,
+          {
+            headers: {
+              authorization: token, // Replace with the actual token source
+            },
+          }
+        );
+
+        if (deleteResponse.data) {
+          openMessage("success", "Chapter Tag Deleted");
+          chapterTagsQuery.refetch();
+        } else {
+          openMessage("error", "Deletion Failed");
+        }
+      } catch (error) {
+        openMessage("error", "Deletion Faile");
+      }
+    };
+
+    if (
+      chapterTagsQuery.data.data.success &&
+      chapterTagsQuery.data.data.data.length > 0
+    ) {
+      chapterTagsQuery.data.data.data.forEach((item, index) => {
+        item.key = index + 1;
+      });
+    }
+
+    return (
+      <div className="CHAPTERSTAGSTABLE">
+        {contextHolder}
+        <h3 style={{ marginLeft: "10px", fontWeight: 700 }}>All Chapters</h3>
+        {chapterTagsQuery.data.data.success &&
+        chapterTagsQuery.data.data.data.length > 0 ? (
+          <Table
+            columns={columns}
+            dataSource={chapterTagsQuery.data.data.data}
           />
         ) : (
           <Empty />
@@ -328,6 +465,119 @@ const SubjectTagsForm = ({
   );
 };
 
+const ChapterTagsForm = ({
+  token,
+  serverRoute,
+  onResponse,
+  editMode,
+  defaultValues,
+}) => {
+  const [form] = Form.useForm();
+  const [submitLoading, setSubmitLoading] = useState(false);
+
+  useEffect(() => {
+    if (editMode) {
+      form.setFieldsValue(defaultValues);
+    }
+  }, [defaultValues, form]);
+
+  const handleFormSubmit = async () => {
+    form.validateFields().then(async (values) => {
+      //Post the Data
+      var chapterTagResponse;
+      try {
+        setSubmitLoading(true);
+        if (editMode) {
+          chapterTagResponse = await axios.put(
+            `${serverRoute}/chapterTag/${defaultValues.chapterTagId}`,
+            values,
+            {
+              headers: {
+                authorization: token, // Replace with the actual token source
+              },
+            }
+          );
+        } else {
+          chapterTagResponse = await axios.post(
+            `${serverRoute}/chapterTag`,
+            values,
+            {
+              headers: {
+                authorization: token, // Replace with the actual token source
+              },
+            }
+          );
+        }
+      } catch (err) {
+        //Error Part console.log here while testing
+      } finally {
+        setSubmitLoading(false);
+      }
+
+      //Check the post reponse
+      if (
+        chapterTagResponse &&
+        chapterTagResponse.data &&
+        chapterTagResponse.data.success
+      ) {
+        onResponse({ type: true, success: true });
+        form.resetFields();
+      } else {
+        onResponse({ type: true, success: false });
+      }
+    });
+  };
+
+  const handleReset = () => {
+    form.setFieldsValue({});
+    form.resetFields();
+    onResponse({ type: false, success: false });
+  };
+
+  return (
+    <div className="CHAPTERTAGSFORM">
+      <h3 style={{ marginLeft: "10px", fontWeight: 700 }}>
+        {editMode ? "Edit Chapter Tag" : "Add Chapter Tag"}
+      </h3>
+      <Form
+        form={form}
+        name="validateOnly"
+        layout="vertical"
+        autoComplete="off"
+        className="adminForms"
+      >
+        <span className="AllInputs" style={{ alignItems: "flex-end" }}>
+          <Form.Item
+            name="chapterTagName"
+            label="Chapter Tag Name"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+            className="vsmall"
+          >
+            <Input placeholder="Chapter Tag Name" />
+          </Form.Item>
+
+          <Form.Item>
+            <Space>
+              <SubmitButton
+                form={form}
+                onClicked={handleFormSubmit}
+                loading={submitLoading}
+              />
+              <Button htmlType="reset" onClick={handleReset}>
+                Reset
+              </Button>
+            </Space>
+          </Form.Item>
+        </span>
+      </Form>
+    </div>
+  );
+};
+
 const SubjectsChapterTags = ({ serverRoute, clientRoute }) => {
   const token = Cookies.get("token");
 
@@ -347,6 +597,9 @@ const SubjectsChapterTags = ({ serverRoute, clientRoute }) => {
   const [defaultSubjectTagEditValue, setDefaultSubjectTagEditValue] = useState(
     {}
   ); // There are no default values for editing until edit is clicked in subjects table
+  const [defaultChapterTagEditValue, setDefaultChapterTagEditValue] = useState(
+    {}
+  );
 
   const handlePopupClose = () => {
     setPopup({
@@ -393,6 +646,45 @@ const SubjectsChapterTags = ({ serverRoute, clientRoute }) => {
     setSubjectTagEditMode(true);
     setDefaultSubjectTagEditValue(record);
   };
+
+  useEffect(() => {
+    if (refetchChapterTag) {
+      setRefetchChapterTags(false);
+    }
+  }, [refetchChapterTag]);
+
+  const handleChapterTagEdit = (record) => {
+    setChapterTagEditMode(true);
+    setDefaultChapterTagEditValue(record);
+  };
+
+  const handleChapterTagResponse = (response) => {
+    if (response.type) {
+      if (response.success) {
+        setRefetchChapterTags(true);
+        setPopup({
+          state: true,
+          type: true,
+          message: chapterTagEditMode
+            ? "Chapter Tag Edited Successfully"
+            : "Chapter Tag Created Successfully",
+        });
+      } else {
+        setPopup({
+          state: true,
+          type: false,
+          message: chapterTagEditMode
+            ? "Chapter Tag Editing Failed"
+            : "Chapter Tag Creation Failed",
+        });
+      }
+    }
+
+    if (chapterTagEditMode) {
+      setChapterTagEditMode(false);
+      setDefaultChapterTagEditValue({});
+    }
+  };
   return (
     <div className="SUBJECTCHAPTERTAGS">
       {popup.state && (
@@ -406,7 +698,7 @@ const SubjectsChapterTags = ({ serverRoute, clientRoute }) => {
         serverRoute={serverRoute}
         clientRoute={clientRoute}
         heading={"Subjects & Chapters Tags"}
-        defaultKey={"/admin/edit/subjectsChapters"}
+        defaultKey={"/admin/edit/subjectChapterTags"}
       >
         <div className="admin-main">
           <div className="admin-main-header">
@@ -451,7 +743,22 @@ const SubjectsChapterTags = ({ serverRoute, clientRoute }) => {
               />
             </>
           ) : (
-            <></>
+            <>
+              <ChapterTagsForm
+                token={token}
+                serverRoute={serverRoute}
+                onResponse={handleChapterTagResponse}
+                editMode={chapterTagEditMode}
+                defaultValues={defaultChapterTagEditValue}
+              />
+              <ChaptersTagsTable
+                token={token}
+                serverRoute={serverRoute}
+                refetch={refetchChapterTag}
+                onRefetch={() => setRefetchChapterTags(true)}
+                onEdit={handleChapterTagEdit}
+              />
+            </>
           )}
         </div>
       </AdminLayout>

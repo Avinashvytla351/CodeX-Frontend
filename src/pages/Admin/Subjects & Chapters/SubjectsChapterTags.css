@@ -1,5 +1,5 @@
 .SUBJECTSTAGSTABLE,
-.CHAPTERSTABLE {
+.CHAPTERSTAGSTABLE {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -13,14 +13,16 @@
   padding: 0;
   position: relative;
 }
-.SUBJECTTAGSFORM {
+.SUBJECTTAGSFORM,
+.CHAPTERTAGSFORM {
   width: 100%;
   height: fit-content;
   margin: 0;
   padding: 0;
   position: relative;
 }
-.SUBJECTTAGSFORM .AllInputs {
+.SUBJECTTAGSFORM .AllInputs,
+.CHAPTERTAGSFORM .AllInputs {
   justify-content: flex-start;
 }
 .SUBJECTCHAPTERTAGS .admin-main {
@@ -73,7 +75,11 @@
   left: var(--left);
   transition: 0.25s ease-in;
 }
+.CHAPTERSTAGSTABLE th:nth-child(3),
+.CHAPTERSTAGSTABLE td:nth-child(3) {
+  display: none;
+}
 .SUBJECTSTAGSTABLE th:nth-child(3),
-td:nth-child(3) {
+.SUBJECTSTAGSTABLE td:nth-child(3) {
   display: none;
 }

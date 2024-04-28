@@ -70,3 +70,11 @@
   left: var(--left);
   transition: 0.25s ease-in;
 }
+.CHAPTERSTABLE th:nth-child(2),
+.CHAPTERSTABLE td:nth-child(2) {
+  display: none;
+}
+.SUBJECTSTABLE th:nth-child(2),
+.SUBJECTSTABLE td:nth-child(2) {
+  display: none;
+}

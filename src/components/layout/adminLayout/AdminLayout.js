@@ -30,13 +30,24 @@ const AdminMenu = ({ defaultKey }) => {
     },
     {
       label: "Subjects & Chapters",
-      key: "/admin/edit/subjectsChapters",
+      key: "1",
       type: "main",
       icon: <GroupOutlined />,
+      children: [
+        {
+          label: "Manage Subjects & Chapters",
+          key: "/admin/edit/subjectsChapters",
+        },
+        {
+          label: "Manage Subject & Chapter Tags",
+          key: "/admin/edit/subjectChapterTags",
+        },
+      ],
     },
+
     {
       label: "Manage Contests",
-      key: "1",
+      key: "2",
       type: "main",
       icon: <ExperimentOutlined />,
       children: [
@@ -60,7 +71,7 @@ const AdminMenu = ({ defaultKey }) => {
     },
     {
       label: "Manage Questions",
-      key: "2",
+      key: "3",
       type: "main",
       icon: <BlockOutlined />,
       children: [
@@ -84,7 +95,7 @@ const AdminMenu = ({ defaultKey }) => {
     },
     {
       label: "Manage MCQ Contests",
-      key: "3",
+      key: "4",
       type: "main",
       icon: <BuildOutlined />,
       children: [
@@ -96,7 +107,7 @@ const AdminMenu = ({ defaultKey }) => {
     },
     {
       label: "Manage MCQ Question",
-      key: "4",
+      key: "5",
       type: "main",
       icon: <CheckSquareOutlined />,
       children: [

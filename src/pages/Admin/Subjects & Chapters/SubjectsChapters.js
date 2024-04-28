@@ -34,10 +34,10 @@ const SubjectsTable = ({
   const subjectsQuery = useQuery({
     queryKey: ["subjects"],
     queryFn: () => {
-      return axios.get("https://659d3738633f9aee7908e9df.mockapi.io/subjects", {
-        headers: /*{
+      return axios.get(`${serverRoute}/subjects`, {
+        headers: {
           authorization: token, // Replace with the actual token source
-        }*/ { "content-type": "application/json" },
+        },
       });
     },
   });
@@ -47,8 +47,12 @@ const SubjectsTable = ({
       subjectsQuery.refetch();
       onRefetch(true);
     }
-    if (subjectsQuery.data && subjectsQuery.data.data) {
-      onData(subjectsQuery.data.data);
+    if (
+      subjectsQuery.data &&
+      subjectsQuery.data.data &&
+      subjectsQuery.data.data.data
+    ) {
+      onData(subjectsQuery.data.data.data);
     }
   }, [refetch, onRefetch, subjectsQuery]);
 
@@ -73,54 +77,50 @@ const SubjectsTable = ({
       },
       {
         title: "Subject Id",
-        dataIndex: "Subject_Id",
-        key: "Subject_Id",
+        dataIndex: "subjectId",
+        key: "subjectId",
       },
       {
         title: "Subject Name",
-        dataIndex: "Subject_Name",
-        key: "Subject_Name",
-        sorter: (a, b) =>
-          a.Subject_Name.toLowerCase().localeCompare(
-            b.Subject_Name.toLowerCase()
-          ),
+        dataIndex: "subjectName",
+        key: "subjectName",
       },
       {
         title: "Subject Tag Name",
-        dataIndex: "Subject_Tag_Name",
-        key: "Subject_Tag_Name",
+        dataIndex: "subjectTagName",
+        key: "subjectTagName",
         sorter: (a, b) =>
-          a.Subject_Tag_Name.toLowerCase().localeCompare(
-            b.Subject_Tag_Name.toLowerCase()
-          ),
+          a.subjectTagName
+            .toLowerCase()
+            .localeCompare(b.subjectTagName.toLowerCase()),
       },
       {
         title: "Chapters Count",
-        dataIndex: "Chapters_Count",
-        key: "Chapters_Count",
+        dataIndex: "chaptersCount",
+        key: "chaptersCount",
         sorter: (a, b) => {
-          return Number(a.Chapters_Count) > Number(b.Chapters_Count);
+          return Number(a.chaptersCount) > Number(b.chaptersCount);
         },
       },
       {
         title: "Questions Count",
-        dataIndex: "Questions_Count",
-        key: "Questions_Count",
+        dataIndex: "questionsCount",
+        key: "questionsCount",
         sorter: (a, b) => {
-          return Number(a.Questions_Count) > Number(b.Questions_Count);
+          return Number(a.questionsCount) > Number(b.questionsCount);
         },
       },
       {
         title: "Action",
         key: "action",
         render: (_, record) =>
-          subjectsQuery.data.data.length > 0 ? (
+          subjectsQuery.data.data.data.length > 0 ? (
             <Space size="middle">
               <a onClick={() => handleSubjectEdit(record)}>Edit</a>
               <Popconfirm
                 title="Sure to delete?"
                 onConfirm={() =>
-                  handleSubjectDelete(record.Subject_Id, record.key)
+                  handleSubjectDelete(record.subjectId, record.key)
                 }
               >
                 <a>Delete</a>
@@ -143,14 +143,14 @@ const SubjectsTable = ({
       onEdit(record); //Callback to Subject Form
     };
 
-    const handleSubjectDelete = async (Subject_Id, key) => {
+    const handleSubjectDelete = async (subjectId, key) => {
       try {
         const deleteResponse = await axios.delete(
-          "https://659d3738633f9aee7908e9df.mockapi.io/subjects/" + Subject_Id,
+          `${serverRoute}/subject/${subjectId}`,
           {
-            headers: /*{
+            headers: {
               authorization: token, // Replace with the actual token source
-            }*/ { "content-type": "application/json" },
+            },
           }
         );
         if (deleteResponse.data) {
@@ -164,7 +164,7 @@ const SubjectsTable = ({
       }
     };
 
-    subjectsQuery.data.data.forEach((item, index) => {
+    subjectsQuery.data.data.data.forEach((item, index) => {
       item.key = index + 1;
     });
 
@@ -172,7 +172,7 @@ const SubjectsTable = ({
       <div className="SUBJECTSTABLE">
         {contextHolder}
         <h3 style={{ marginLeft: "10px", fontWeight: 700 }}>All Subjects</h3>
-        <Table columns={columns} dataSource={subjectsQuery.data.data} />
+        <Table columns={columns} dataSource={subjectsQuery.data.data.data} />
       </div>
     );
   }
@@ -233,6 +233,7 @@ const SubjectForm = ({
 }) => {
   const [form] = Form.useForm();
   const [submitLoading, setSubmitLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (editMode) {
@@ -242,7 +243,7 @@ const SubjectForm = ({
 
   const handleFormSubmit = async () => {
     form.validateFields().then(async (values) => {
-      values.Subject_Tag_Id = values.Subject_Tag;
+      values.subjectTagId = values.subjectTag;
 
       //Post the Data
       var subjectResponse;
@@ -250,49 +251,74 @@ const SubjectForm = ({
         setSubmitLoading(true);
         if (editMode) {
           subjectResponse = await axios.put(
-            "https://659d3738633f9aee7908e9df.mockapi.io/subjects/" +
-              defaultValues.Subject_Id,
+            `${serverRoute}/subject/${defaultValues.subjectId}`,
             values,
             {
-              headers: /*{
-            authorization: token, // Replace with the actual token source
-          }*/ { "content-type": "application/json" },
+              headers: {
+                authorization: token, // Replace with the actual token source
+              },
             }
           );
         } else {
-          subjectResponse = await axios.post(
-            "https://659d3738633f9aee7908e9df.mockapi.io/subjects",
-            values,
-            {
-              headers: /*{
-          authorization: token, // Replace with the actual token source
-        }*/ { "content-type": "application/json" },
-            }
-          );
+          subjectResponse = await axios.post(`${serverRoute}/subject`, values, {
+            headers: {
+              authorization: token, // Replace with the actual token source
+            },
+          });
         }
       } catch (err) {
         //Error Part console.log here while testing
+        subjectResponse = err;
       } finally {
         setSubmitLoading(false);
       }
 
       //Check the post reponse
       if (subjectResponse && subjectResponse.data) {
-        onResponse({ type: true, success: true });
+        onResponse({ type: true, success: true, message: "" });
         form.resetFields();
       } else {
-        onResponse({ type: true, success: false });
+        try {
+          onResponse({
+            type: true,
+            success: false,
+            message: subjectResponse.response.data.message,
+          });
+        } catch (err) {
+          onResponse({ type: true, success: false, message: "" });
+        }
       }
     });
   };
 
-  const options = [
-    { label: "C Programming", value: "0001" },
-    { label: "Python Programming", value: "0002" },
-    { label: "CPP Programming", value: "0003" },
-    { label: "JAVA Programming", value: "0004" },
-    { label: "HTML", value: "0005" },
-  ];
+  //Fetch Subject Tags for the Subjects
+  var options = [];
+
+  const subjectTagsQuery = useQuery({
+    queryKey: ["subjectTags"],
+    queryFn: () => {
+      return axios.get(`${serverRoute}/subjectTags`, {
+        headers: {
+          authorization: token, // Replace with the actual token source
+        },
+      });
+    },
+  });
+
+  if (subjectTagsQuery.isError) {
+    setLoading(false);
+  } else if (subjectTagsQuery.isSuccess) {
+    if (
+      subjectTagsQuery.data &&
+      subjectTagsQuery.data.data &&
+      subjectTagsQuery.data.data.success &&
+      subjectTagsQuery.data.data.data.length > 0
+    ) {
+      subjectTagsQuery.data.data.data.forEach((item, index) => {
+        options.push({ label: item.subjectTagName, value: item.subjectTagId });
+      });
+    }
+  }
 
   const handleReset = () => {
     form.setFieldsValue({});
@@ -303,7 +329,7 @@ const SubjectForm = ({
   return (
     <div className="SUBJECTSFORM">
       <h3 style={{ marginLeft: "10px", fontWeight: 700 }}>
-        {editMode ? "Edit Subject " + defaultValues.Subject_Id : "Add Subject"}
+        {editMode ? "Edit Subject" : "Add Subject"}
       </h3>
       <Form
         form={form}
@@ -314,7 +340,7 @@ const SubjectForm = ({
       >
         <span className="AllInputs" style={{ alignItems: "flex-end" }}>
           <Form.Item
-            name="Subject_Name"
+            name="subjectName"
             label="Subject Name"
             rules={[
               {
@@ -327,7 +353,7 @@ const SubjectForm = ({
           </Form.Item>
 
           <Form.Item
-            name="Subject_Tag"
+            name="subjectTag"
             label="Subject Tag"
             rules={[
               {
@@ -363,10 +389,10 @@ const ChaptersTable = ({ token, serverRoute, refetch, onRefetch, onEdit }) => {
   const chaptersQuery = useQuery({
     queryKey: ["chapters"],
     queryFn: () => {
-      return axios.get("https://659d3738633f9aee7908e9df.mockapi.io/chapters", {
-        headers: /*{
+      return axios.get(`${serverRoute}/chapters`, {
+        headers: {
           authorization: token, // Replace with the actual token source
-        }*/ { "content-type": "application/json" },
+        },
       });
     },
   });
@@ -399,55 +425,55 @@ const ChaptersTable = ({ token, serverRoute, refetch, onRefetch, onEdit }) => {
       },
       {
         title: "Chapter Id",
-        dataIndex: "Chapter_Id",
-        key: "Chapter_Id",
+        dataIndex: "chapterId",
+        key: "chapterId",
       },
       {
         title: "Chapter Name",
-        dataIndex: "Chapter_Name",
-        key: "Chapter_Name",
+        dataIndex: "chapterName",
+        key: "chapterName",
         sorter: (a, b) =>
-          a.Chapter_Name.toLowerCase().localeCompare(
-            b.Chapter_Name.toLowerCase()
-          ),
+          a.chapterName
+            .toLowerCase()
+            .localeCompare(b.chapterName.toLowerCase()),
       },
       {
         title: "Chapter Tag Name",
-        dataIndex: "Chapter_Tag_Name",
-        key: "Chapter_Tag_Name",
+        dataIndex: "chapterTagName",
+        key: "chapterTagName",
         sorter: (a, b) =>
-          a.Chapter_Tag_Name.toLowerCase().localeCompare(
-            b.Chapter_Tag_Name.toLowerCase()
-          ),
+          a.chapterTagName
+            .toLowerCase()
+            .localeCompare(b.chapterTagName.toLowerCase()),
       },
       {
         title: "Subject Name",
-        dataIndex: "Subject_Name",
-        key: "Subject_Name",
+        dataIndex: "subjectName",
+        key: "subjectName",
         sorter: (a, b) =>
-          a.Subject_Name.toLowerCase().localeCompare(
-            b.Subject_Name.toLowerCase()
-          ),
+          a.subjectName
+            .toLowerCase()
+            .localeCompare(b.subjectName.toLowerCase()),
       },
       {
         title: "Questions Count",
-        dataIndex: "Questions_Count",
-        key: "Questions_Count",
+        dataIndex: "questionsCount",
+        key: "questionsCount",
         sorter: (a, b) => {
-          return Number(a.Questions_Count) > Number(b.Questions_Count);
+          return Number(a.questionsCount) > Number(b.questionsCount);
         },
       },
       {
         title: "Action",
         key: "action",
         render: (_, record) =>
-          chaptersQuery.data.data.length > 0 ? (
+          chaptersQuery.data.data.data.length > 0 ? (
             <Space size="middle">
               <a onClick={() => handleChapterEdit(record)}>Edit</a>
               <Popconfirm
                 title="Sure to delete?"
                 onConfirm={() =>
-                  handleChapterDelete(record.Chapter_Id, record.key)
+                  handleChapterDelete(record.chapterId, record.key)
                 }
               >
                 <a>Delete</a>
@@ -470,16 +496,17 @@ const ChaptersTable = ({ token, serverRoute, refetch, onRefetch, onEdit }) => {
       onEdit(record); //Callback to Chapter Form
     };
 
-    const handleChapterDelete = async (Chapter_Id, key) => {
+    const handleChapterDelete = async (chapterId, key) => {
       try {
         const deleteResponse = await axios.delete(
-          "https://659d3738633f9aee7908e9df.mockapi.io/chapters/" + Chapter_Id,
+          `${serverRoute}/chapter/${chapterId}`,
           {
-            headers: /*{
+            headers: {
               authorization: token, // Replace with the actual token source
-            }*/ { "content-type": "application/json" },
+            },
           }
         );
+        console.log(deleteResponse.data);
         if (deleteResponse.data) {
           openMessage("success", "Chapter Deleted");
           chaptersQuery.refetch();
@@ -491,15 +518,22 @@ const ChaptersTable = ({ token, serverRoute, refetch, onRefetch, onEdit }) => {
       }
     };
 
-    chaptersQuery.data.data.forEach((item, index) => {
-      item.key = index + 1;
-    });
+    if (
+      chaptersQuery &&
+      chaptersQuery.data &&
+      chaptersQuery.data.data &&
+      chaptersQuery.data.data.data
+    ) {
+      chaptersQuery.data.data.data.forEach((item, index) => {
+        item.key = index + 1;
+      });
+    }
 
     return (
       <div className="CHAPTERSTABLE">
         {contextHolder}
         <h3 style={{ marginLeft: "10px", fontWeight: 700 }}>All Chapters</h3>
-        <Table columns={columns} dataSource={chaptersQuery.data.data} />
+        <Table columns={columns} dataSource={chaptersQuery.data.data.data} />
       </div>
     );
   }
@@ -515,7 +549,8 @@ const ChapterForm = ({
 }) => {
   const [subjectOptions, setSubjectOptions] = useState([]);
   const [submitLoading, setSubmitLoading] = useState(false);
-
+  const [messageApi, contextHolder] = message.useMessage();
+  const key = "updatable";
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -529,8 +564,8 @@ const ChapterForm = ({
       let temp = [];
       subjectsData.forEach((subject) => {
         temp.push({
-          label: subject.Subject_Name,
-          value: subject.Subject_Id,
+          label: subject.subjectName,
+          value: subject.subjectId,
         });
       });
 
@@ -540,12 +575,12 @@ const ChapterForm = ({
 
   const handleFormSubmit = async () => {
     form.validateFields().then(async (values) => {
-      values.Chapter_Tag_Id = values.Chapter_Tag;
-      values.Subject_Id = values.Subject_Name;
+      values.chapterTagId = values.chapterTag;
+      values.subjectId = values.subjectName;
       if (subjectOptions.length) {
         subjectOptions.forEach((option) => {
-          if (option.value === values.Subject_Id) {
-            values.Subject_Name = option.label;
+          if (option.value === values.subjectId) {
+            values.subjectName = option.label;
             return;
           }
         });
@@ -557,49 +592,54 @@ const ChapterForm = ({
         setSubmitLoading(true);
         if (editMode) {
           chapterResponse = await axios.put(
-            "https://659d3738633f9aee7908e9df.mockapi.io/chapters/" +
-              defaultValues.Chapter_Id,
+            `${serverRoute}/chapter/${defaultValues.chapterId}`,
             values,
             {
-              headers: /*{
-            authorization: token, // Replace with the actual token source
-          }*/ { "content-type": "application/json" },
+              headers: {
+                authorization: token, // Replace with the actual token source
+              },
             }
           );
         } else {
-          chapterResponse = await axios.post(
-            "https://659d3738633f9aee7908e9df.mockapi.io/chapters",
-            values,
-            {
-              headers: /*{
-          authorization: token, // Replace with the actual token source
-        }*/ { "content-type": "application/json" },
-            }
-          );
+          chapterResponse = await axios.post(`${serverRoute}/chapter`, values, {
+            headers: {
+              authorization: token, // Replace with the actual token source
+            },
+          });
         }
       } catch (err) {
         //Error Part console.log here while testing
+        chapterResponse = err;
       } finally {
         setSubmitLoading(false);
       }
 
       //Check the post reponse
       if (chapterResponse && chapterResponse.data) {
-        onResponse({ type: true, success: true });
+        onResponse({ type: true, success: true, message: "" });
         form.resetFields();
       } else {
-        onResponse({ type: true, success: false });
+        try {
+          onResponse({
+            type: true,
+            success: false,
+            message: chapterResponse.response.data.message,
+          });
+        } catch (err) {
+          onResponse({ type: true, success: false, message: "" });
+        }
       }
     });
   };
 
-  const options = [
-    { label: "C Programming", value: "0001" },
-    { label: "Python Programming", value: "0002" },
-    { label: "CPP Programming", value: "0003" },
-    { label: "JAVA Programming", value: "0004" },
-    { label: "HTML", value: "0005" },
-  ];
+  const openMessage = (type, content) => {
+    messageApi.open({
+      key,
+      type: type,
+      content: content,
+      duration: 2,
+    });
+  };
 
   const handleReset = () => {
     form.setFieldsValue({});
@@ -609,78 +649,120 @@ const ChapterForm = ({
     onResponse({ type: false, success: false });
   };
 
-  return (
-    <div className="SUBJECTSFORM">
-      <h3 style={{ marginLeft: "10px", fontWeight: 700 }}>
-        {editMode ? "Edit Subject " + defaultValues.Subject_Id : "Add Subject"}
-      </h3>
-      <Form
-        form={form}
-        name="validateOnly"
-        layout="vertical"
-        autoComplete="off"
-        className="adminForms"
-      >
-        <span className="AllInputs" style={{ alignItems: "flex-end" }}>
-          <Form.Item
-            name="Chapter_Name"
-            label="Chapter Name"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-            className="vsmall"
-          >
-            <Input placeholder="Chapter Name" />
-          </Form.Item>
+  //Fetch Chapter Tags for the Chapters
+  var options = [];
 
-          <Form.Item
-            name="Chapter_Tag"
-            label="Chapter Tag"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-            className="vvsmall"
-          >
-            <Select allowClear placeholder="Please select" options={options} />
-          </Form.Item>
+  const chapterTagsQuery = useQuery({
+    queryKey: ["chapterTags"],
+    queryFn: () => {
+      return axios.get(`${serverRoute}/chapterTags`, {
+        headers: {
+          authorization: token, // Replace with the actual token source
+        },
+      });
+    },
+  });
 
-          <Form.Item
-            name="Subject_Name"
-            label="Subject Name"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-            className="vvsmall"
-          >
-            <Select
-              allowClear
-              placeholder="Please select"
-              options={subjectOptions}
-            />
-          </Form.Item>
+  if (chapterTagsQuery.isError) {
+    openMessage(false, "Failed to fetch chapter tags");
+  } else if (chapterTagsQuery.isLoading) {
+    return (
+      <span className="AllInputs" style={{ alignItems: "flex-end" }}>
+        <Skeleton.Input active={true} size={"default"} />
+        <Skeleton.Input active={true} size={"default"} />
+      </span>
+    );
+  } else if (chapterTagsQuery.isSuccess) {
+    if (
+      chapterTagsQuery.data &&
+      chapterTagsQuery.data.data &&
+      chapterTagsQuery.data.data.success &&
+      chapterTagsQuery.data.data.data.length > 0
+    ) {
+      chapterTagsQuery.data.data.data.forEach((item, index) => {
+        options.push({ label: item.chapterTagName, value: item.chapterTagId });
+      });
+    }
 
-          <Form.Item>
-            <Space>
-              <SubmitButton
-                form={form}
-                onClicked={handleFormSubmit}
-                loading={submitLoading}
+    return (
+      <div className="SUBJECTSFORM">
+        <h3 style={{ marginLeft: "10px", fontWeight: 700 }}>
+          {editMode
+            ? "Edit Subject " + defaultValues.Subject_Id
+            : "Add Subject"}
+        </h3>
+        <Form
+          form={form}
+          name="validateOnly"
+          layout="vertical"
+          autoComplete="off"
+          className="adminForms"
+        >
+          <span className="AllInputs" style={{ alignItems: "flex-end" }}>
+            <Form.Item
+              name="chapterName"
+              label="Chapter Name"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+              className="vsmall"
+            >
+              <Input placeholder="Chapter Name" />
+            </Form.Item>
+
+            <Form.Item
+              name="chapterTag"
+              label="Chapter Tag"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+              className="vvsmall"
+            >
+              <Select
+                allowClear
+                placeholder="Please select"
+                options={options}
               />
-              <Button htmlType="reset" onClick={handleReset}>
-                Reset
-              </Button>
-            </Space>
-          </Form.Item>
-        </span>
-      </Form>
-    </div>
-  );
+            </Form.Item>
+
+            <Form.Item
+              name="subjectName"
+              label="Subject Name"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+              className="vvsmall"
+            >
+              <Select
+                allowClear
+                placeholder="Please select"
+                options={subjectOptions}
+              />
+            </Form.Item>
+
+            <Form.Item>
+              <Space>
+                <SubmitButton
+                  form={form}
+                  onClicked={handleFormSubmit}
+                  loading={submitLoading}
+                />
+                <Button htmlType="reset" onClick={handleReset}>
+                  Reset
+                </Button>
+              </Space>
+            </Form.Item>
+          </span>
+        </Form>
+      </div>
+    );
+  }
 };
 
 const SubjectsChapters = ({ serverRoute, clientRoute }) => {
@@ -718,16 +800,18 @@ const SubjectsChapters = ({ serverRoute, clientRoute }) => {
             : "Subject Created Successfully",
         });
       } else {
+        //check if any default message is available from server if not provide default message based on edit mode
         setPopup({
           state: true,
           type: false,
-          message: subjectEditMode
-            ? "Subject Editing Failed"
-            : "Subject Creation Failed",
+          message: response.message.length
+            ? response.message
+            : subjectEditMode
+            ? "Failed to edit subject"
+            : "Failed to create subject",
         });
       }
     }
-
     if (subjectEditMode) {
       setSubjectEditMode(false);
       setDefaultSubjectEditValue({});
@@ -749,9 +833,11 @@ const SubjectsChapters = ({ serverRoute, clientRoute }) => {
         setPopup({
           state: true,
           type: false,
-          message: chapterEditMode
-            ? "Chapter Editing Failed"
-            : "Chapter Creation Failed",
+          message: response.message.length
+            ? response.message
+            : chapterEditMode
+            ? "Failed to edit chapter"
+            : "Failed to create chapter",
         });
       }
     }
@@ -779,14 +865,14 @@ const SubjectsChapters = ({ serverRoute, clientRoute }) => {
   const handleSubjectEdit = (editSubjectRecord) => {
     setSubjectEditMode(true);
     //In the Subject Form Subject Tag Name is mentioned as Subject Tag
-    editSubjectRecord.Subject_Tag = editSubjectRecord.Subject_Tag_Name;
+    editSubjectRecord.subjectTag = editSubjectRecord.subjectTagId;
     setDefaultSubjectEditValue(editSubjectRecord);
   };
 
   const handleChapterEdit = (editChapterRecord) => {
     setChapterEditMode(true);
     //In the Subject Form Chapter Tag Name is mentioned as Chapter Tag
-    editChapterRecord.Chapter_Tag = editChapterRecord.Chapter_Tag_Name;
+    editChapterRecord.chapterTag = editChapterRecord.chapterTagId;
     setDefaultChapterEditValue(editChapterRecord);
   };
 
