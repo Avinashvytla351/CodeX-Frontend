@@ -126,21 +126,21 @@ const QuestionDetails = ({
   const subjectOptions = [];
   subjects.forEach((subject) => {
     subjectOptions.push({
-      label: subject.Subject_Name,
-      value: subject.Subject_Id,
+      label: subject.subjectName,
+      value: subject.subjectId,
     });
   });
 
   const chapterOptions = {};
   chapters.forEach((chapter) => {
     try {
-      chapterOptions[chapter.Subject_Id].push({
-        label: chapter.Chapter_Name,
-        value: chapter.Chapter_Id,
+      chapterOptions[chapter.subjectId].push({
+        label: chapter.chapterName,
+        value: chapter.chapterId,
       });
     } catch (err) {
-      chapterOptions[chapter.Subject_Id] = [
-        { label: chapter.Chapter_Name, value: chapter.Chapter_Id },
+      chapterOptions[chapter.subjectId] = [
+        { label: chapter.chapterName, value: chapter.chapterId },
       ];
     }
   });
@@ -492,15 +492,32 @@ const TestcasesForm = ({ defaultValues, onBack, onSubmit }) => {
 
   const handleFormSubmit = () => {
     form.validateFields().then((values) => {
-      values.exampleTestCase.push({
-        Input: values.exampleTestCaseInput1,
-        Output: values.exampleTestCaseOutput1,
-      });
-      values.hiddenTestCase.push({
-        Input: values.hiddenTestCaseInput1,
-        Weightage: values.Weightage1,
-        Output: values.hiddenTestCaseOutput1,
-      });
+      if (values.exampleTestCase) {
+        values.exampleTestCase.push({
+          Input: values.exampleTestCaseInput1,
+          Output: values.exampleTestCaseOutput1,
+        });
+      } else {
+        values.exampleTestCase = [];
+        values.exampleTestCase.push({
+          Input: values.exampleTestCaseInput1,
+          Output: values.exampleTestCaseOutput1,
+        });
+      }
+      if (values.hiddenTestCase) {
+        values.hiddenTestCase.push({
+          Input: values.hiddenTestCaseInput1,
+          Weightage: values.Weightage1,
+          Output: values.hiddenTestCaseOutput1,
+        });
+      } else {
+        values.hiddenTestCase = [];
+        values.hiddenTestCase.push({
+          Input: values.hiddenTestCaseInput1,
+          Weightage: values.Weightage1,
+          Output: values.hiddenTestCaseOutput1,
+        });
+      }
 
       values.code = code;
 
@@ -867,8 +884,15 @@ const QuestionAddForm = ({
   };
 
   const handleFinalSubmit = async (testCases) => {
-    let values = { questionDetails, testCases };
-
+    const values = new FormData();
+    Object.keys(questionDetails).forEach((item) => {
+      values.append(item, JSON.stringify(questionDetails[item]));
+    });
+    Object.keys(testCases).forEach((item) => {
+      values.append(item, JSON.stringify(testCases[item]));
+    });
+    values.append("image", questionDetails.descriptionImage);
+    console.log(values.get("descriptionImage"));
     try {
       var questionResponse = null;
       if (defaultValues) {

@@ -40,8 +40,8 @@ const QuestionAdd = ({ serverRoute, clientRoute }) => {
   const subjectsQuery = useQuery({
     queryKey: ["subjects"],
     queryFn: () => {
-      return axios.get("https://659d3738633f9aee7908e9df.mockapi.io/subjects", {
-        headers: { "content-type": "application/json" },
+      return axios.get(`${serverRoute}/subjects`, {
+        headers: { authorization: token },
       });
     },
   });
@@ -49,12 +49,11 @@ const QuestionAdd = ({ serverRoute, clientRoute }) => {
   const chaptersQuery = useQuery({
     queryKey: ["chapters"],
     queryFn: () => {
-      return axios.get("https://659d3738633f9aee7908e9df.mockapi.io/chapters", {
-        headers: { "content-type": "application/json" },
+      return axios.get(`${serverRoute}/chapters`, {
+        headers: { authorization: token },
       });
     },
   });
-
   useEffect(() => {
     if (tagsQuery.isError && !errorMessage.state) {
       setErrorMessage({ state: true, message: "Unable to fetch tags" });
@@ -78,14 +77,24 @@ const QuestionAdd = ({ serverRoute, clientRoute }) => {
     }
 
     if (subjectsQuery.isSuccess) {
-      if (subjectsQuery.data.data) {
-        setSubjects(subjectsQuery.data.data);
+      if (
+        subjectsQuery &&
+        subjectsQuery.data &&
+        subjectsQuery.data.data &&
+        subjectsQuery.data.data.data
+      ) {
+        setSubjects(subjectsQuery.data.data.data);
       }
     }
 
     if (chaptersQuery.isSuccess) {
-      if (chaptersQuery.data.data) {
-        setChapters(chaptersQuery.data.data);
+      if (
+        chaptersQuery &&
+        chaptersQuery.data &&
+        chaptersQuery.data.data &&
+        chaptersQuery.data.data.data
+      ) {
+        setChapters(chaptersQuery.data.data.data);
       }
     }
   }, [
