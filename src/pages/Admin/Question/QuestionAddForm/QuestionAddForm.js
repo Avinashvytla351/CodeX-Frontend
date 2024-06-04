@@ -152,6 +152,18 @@ const QuestionDetails = ({
   const handleFormSubmit = () => {
     form.validateFields().then((values) => {
       values.descriptionImage = fileUploaded;
+      subjectOptions.forEach((option) => {
+        if (option.value === values.subject) {
+          values.subjectName = option.label;
+        }
+      });
+      if (values.subjectName) {
+        chapterOptions[values.subject].forEach((option) => {
+          if (values.chapter === option.value) {
+            values.chapterName = option.label;
+          }
+        });
+      }
       onContinue(values); //callback to the QuestionsForm functions
     });
   };
@@ -469,13 +481,6 @@ const TestcasesForm = ({ defaultValues, onBack, onSubmit }) => {
     java: "// Java code",
   };
 
-  const languageId = {
-    python: "34",
-    cpp: "10",
-    c: "5",
-    java: "26",
-  };
-
   const handleLanguageChange = (event) => {
     const selectedValue = event;
     setSelectedLanguage(selectedValue);
@@ -487,6 +492,7 @@ const TestcasesForm = ({ defaultValues, onBack, onSubmit }) => {
 
   function handleEditorChange(value) {
     // here is the current value
+    value = btoa(value);
     setCode(value);
   }
 
